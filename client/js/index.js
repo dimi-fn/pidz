@@ -1,7 +1,3 @@
-//const Journal = require ('../server/model/journalModel');
-// const xhr = require('xml')
-//const Comment = require ('../server/model/commentModel');
-
 // Create array of all input buttons of type submit wrapped in a form
 const button = document.querySelectorAll("form input[type ='submit']");
 
@@ -31,6 +27,7 @@ function buttonHandler (submitEvent)
         console.log("submit clicked");
         sumbitJournal();
     }
+    // If choice === refreshJournals // do stuff
     else if (choice === 'refreshJournals')
     {
         console.log("refresh clicked");
@@ -45,14 +42,20 @@ function buttonHandler (submitEvent)
 
 function sumbitJournal()
 {
+
     let contentInput = document.getElementById("contentInputBox").value;
-    //let newJournal = new Journal ( 0, contentInput, '', '', '' );
+    console.log("content body to submit is " + contentInput);
 
     fetch("http://localhost:3000/newJournal", 
     {
         method: "POST",
-        //headers: { 'Content-Type' : 'application/Json'},
-        //body:  newJournal
+        headers: { 'Content-Type' : 'application/Json'},
+        body:   JSON.stringify({
+            "id": 99,
+            "content": contentInput,
+            "reactions" : "",
+            "giphy": ""
+        })
     })
     .catch ((error) => alert ("Couldn't post, reason: " +error))
     
@@ -67,9 +70,6 @@ function showAllJournals()
     .then( (resp) => resp.json())
     .then( (data) => 
     {
-        console.log("adding: " +data);
-
-
         data.forEach((item) =>
         {
             let paragraph = document.createElement("p");
@@ -79,9 +79,6 @@ function showAllJournals()
             document.getElementById("displayJournalsSection").appendChild(paragraph );
         });
 
-
-
-        
     });
 
 }

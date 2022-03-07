@@ -1,3 +1,4 @@
+const { Console } = require('console');
 const journalData = require('../data/journalData.js');
 
 class Journal {
@@ -27,9 +28,12 @@ class Journal {
 
     static create(journals){
 
-        const journalId = journals.length + 1;
-        let newJournal = new Journal({id: journalId, ...journals});
-    
+        const journalId = 99;
+        console.log( "Adding journal with content: " +journals.content);
+        let newJournal = new Journal(journalId, journals.content,journals.reactions, journals.giphy, journals.comments);
+        
+        console.log("New journal content: " +newJournal.content);
+
         journalData.push(newJournal);
         return newJournal;
     }
