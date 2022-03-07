@@ -49,7 +49,7 @@ let comments =
         reactions: '',
         giphy: '',
         comments: ''
-    }
-]
+    },
+];
 
 module.exports = comments;

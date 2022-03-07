@@ -1,21 +1,23 @@
-const express = require ('express');
+const express = require('express');
 const Journal = require('../model/journalModel');
 const router = express.Router();
 
-router.get('/', (req,resp) =>
+router.get('/', (req,res) =>
 {
-    resp.sendFile("/client/index.html", { root: '..'});
+    res.sendFile("/client/index.html", { root: '..'});
+    /* res.sendFile("../client/index.html"{ root: '..'}); */
 });
 
-router.get('/allJournals', (req,resp) =>
+// returns all journals
+router.get('/allJournals', (req,res) =>
 {
-    resp.set('Content-Type', 'application/json');
+    res.set('Content-Type', 'application/json');
     let theData = Journal.all;
-    resp.status(200);
-    resp.json(theData);
+    res.status(200);
+    res.json(theData);
 });
 
-// to be reviewed if it's ok! ************************
+// return journal based on id
 router.get('/:id', (req,res)=> {
     try {
         const journalId = parseInt(req.params.id);
@@ -27,7 +29,9 @@ router.get('/:id', (req,res)=> {
     }
 });
 
-router.post('/newJournal', (req,resp) =>
+// this posts a new journal
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Needs to be fixed, req/res not in use !!!!!!!!!!!!!!!!
+router.post('/newJournal', (req,res) =>
 {
     try{
     //get the data for our new journal
@@ -41,5 +45,14 @@ router.post('/newJournal', (req,resp) =>
         throw new Error ('Failed to create journal for reason: ' + error);
     }
 });
+
+router.delete('/:id', (req, res)=> {
+    const journalId = parseInt(req.params.id);
+    const journalToDestroy = Journal.findById(journalId);
+    journalToDestroy.destroy();
+    res.status(204).send();
+    
+})
+
 
 module.exports = router;
