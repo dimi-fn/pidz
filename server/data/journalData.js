@@ -25,8 +25,8 @@ let journals =
         reactions: '',
         giphy: '',
         comments: ''
-    }
-]
+    },
+];
 
 module.exports = journals;
 

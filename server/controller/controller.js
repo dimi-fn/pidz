@@ -1,10 +1,11 @@
-const express = require ('express');
+const express = require('express');
 const Journal = require('../model/journalModel');
 const router = express.Router();
 
 router.get('/', (req,res) =>
 {
     res.sendFile("/client/index.html", { root: '..'});
+    /* res.sendFile("../client/index.html"{ root: '..'}); */
 });
 
 // returns all journals
