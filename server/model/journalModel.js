@@ -33,6 +33,11 @@ class Journal {
         journalData.push(newJournal);
         return newJournal;
     }
+
+    destroy(){
+        const journal = journalData.filter((journal) => journal.id === this.id)[0];
+        journalData.splice(journalData.indexOf(journal), 1);
+    }
 }
 
 module.exports = Journal;
