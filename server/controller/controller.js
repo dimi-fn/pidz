@@ -1,5 +1,6 @@
 const express = require('express');
 const Journal = require('../model/journalModel');
+const Comment = require('../model/commentModel');
 const router = express.Router();
 const bodyParser = require ('body-parser');
 
@@ -29,6 +30,15 @@ router.get('/:id', (req,res)=> {
     }
 });
 
+// returns all comments
+router.get('/allComments', (req,res) =>
+{
+    res.set('Content-Type', 'application/json');
+    let theCommentData = Comment.all;
+    res.status(200);
+    res.json(theCommentData);
+});
+
 // this posts a new journal
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Needs to be fixed, req/res not in use !!!!!!!!!!!!!!!!
 router.post('/newJournal', (req,res) =>
@@ -52,6 +62,22 @@ router.post('/newJournal', (req,res) =>
         res.status(400).send()
     }
 });
+
+// router.post('/newJournal', (req,res) =>
+// {
+
+//     const data = req.body;
+//     console.log("data is: "+ data.content)
+
+//   try {
+//     const newJournal = Journal.create(data); //Creates a new instance of journal
+    
+//     res.status(201).send(newJournal);
+//   } catch (e) {
+//     res.status(400).send(`<h1>Failed to create journal for reason: ${e}</h1>`);
+//   }
+// });
+
 
 router.delete('/:id', (req, res)=> {
     const journalId = parseInt(req.params.id);
