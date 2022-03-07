@@ -1,7 +1,7 @@
 const request = require('supertest');
 
 //import server
-const server = require('..server');
+const server = require('../server');
 
 describe("API server", () => {
     let api;
@@ -45,9 +45,9 @@ describe("API server", () => {
   
     it("retrieves a journal by id", (done) => {
       request(api)
-        .get("/3")
+        .get("/journal/3")
         .expect(200)
-        .expect({ id: 3, content: "some other random post", reactions: "", giphy: "", comments: "another comment!" }, done);
+        .expect({ id: 3, content: "Test 3", reactions: "", giphy: "", comments: "" }, done);
     });
   
     it("responds to an unknown journal id with a 404", (done) => {
