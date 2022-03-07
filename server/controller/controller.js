@@ -1,6 +1,7 @@
 const express = require('express');
 const Journal = require('../model/journalModel');
 const router = express.Router();
+const bodyParser = require ('body-parser');
 
 router.get('/', (req,res) =>
 {
@@ -34,19 +35,22 @@ router.get('/:id', (req,res)=> {
 router.post('/newJournal', (req,res) =>
 {
 
-    let data = req.body;
+    const data = req.body;
+    console.log("data is: "+ data.content)
 
     try{
     //get the data for our new journal
     //TODO:  Replace with better stuff when we have front end.
-    const testData = ({id: 99, content: data, reactions: '', giphy: '', comments: '' })      
+    const testData = ({id: 99, content: data.content, reactions: '', giphy: '', comments: '' });
 
     //create journal obj
     const newJournal = Journal.create(testData);
+    res.status(201).send(newJournal);
     //do something
-    console.log(`Created journal, ${newJournal.id}`);
+    //console.log(`Created journal, ${newJournal.id}`);
     }catch (error){
         throw new Error ('Failed to create journal for reason: ' + error);
+        res.status(400).send()
     }
 });
 
@@ -60,3 +64,4 @@ router.delete('/:id', (req, res)=> {
 
 
 module.exports = router;
+

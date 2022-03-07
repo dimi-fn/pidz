@@ -10,14 +10,14 @@ let journals =
         content: 'Test content',
         reactions: '',
         giphy: '',
-        comments: '',
+        comments: ''
     },
     {
         id: 2,
         content: 'Test 2',
         reactions: '',
         giphy: '',
-        comments: '',
+        comments: ''
     },
     {
         id: 3,

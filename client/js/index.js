@@ -1,7 +1,3 @@
-//const Journal = require ('../server/model/journalModel');
-// const xhr = require('xml')
-//const Comment = require ('../server/model/commentModel');
-
 // Create array of all input buttons of type submit wrapped in a form
 const button = document.querySelectorAll("form input[type ='submit']");
 
@@ -31,7 +27,7 @@ function buttonHandler (submitEvent)
         console.log("submit clicked");
         sumbitJournal();
     }
-    // If choice ==
+    // If choice === refreshJournals // do stuff
     else if (choice === 'refreshJournals')
     {
         console.log("refresh clicked");
@@ -54,7 +50,12 @@ function sumbitJournal()
     {
         method: "POST",
         headers: { 'Content-Type' : 'application/Json'},
-        body:  contentInput
+        body:   JSON.stringify({
+            "id": 99,
+            "content": contentInput,
+            "reactions" : "",
+            "giphy": ""
+        })
     })
     .catch ((error) => alert ("Couldn't post, reason: " +error))
     

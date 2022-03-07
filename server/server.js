@@ -12,6 +12,7 @@ const port = 3000;
 
 //handle our uses
 server.use(cors());
+server.use(express.json());
 server.use(express.static(path.join(__dirname, "client")));
 server.use(express.static(path.join(__dirname, "../client")));
 
@@ -22,4 +23,4 @@ server.use('/',siteRoutes);
 //start server
 server.listen(port, () => console.log(`Server listening on port: ${port}`));
 
-
+module.exports = server;
