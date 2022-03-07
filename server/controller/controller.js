@@ -19,7 +19,7 @@ router.get('/allJournals', (req,res) =>
 });
 
 // return journal based on id
-router.get('/:id', (req,res)=> {
+router.get('/journal/:id', (req,res)=> {
     try {
         const journalId = parseInt(req.params.id);
         const selectedJournalId = Journal.findById(journalId);
@@ -79,7 +79,7 @@ router.post('/newJournal', (req,res) =>
 // });
 
 
-router.delete('/:id', (req, res)=> {
+router.delete('/journal/:id', (req, res)=> {
     const journalId = parseInt(req.params.id);
     const journalToDestroy = Journal.findById(journalId);
     journalToDestroy.destroy();
