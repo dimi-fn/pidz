@@ -33,10 +33,14 @@ router.get('/:id', (req,res)=> {
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Needs to be fixed, req/res not in use !!!!!!!!!!!!!!!!
 router.post('/newJournal', (req,res) =>
 {
+
+    let data = req.body;
+
     try{
     //get the data for our new journal
     //TODO:  Replace with better stuff when we have front end.
-    const testData = ({id: 99, content: 'TestCreate', reactions: '', giphy: '', comments: '' })
+    const testData = ({id: 99, content: data, reactions: '', giphy: '', comments: '' })      
+
     //create journal obj
     const newJournal = Journal.create(testData);
     //do something
