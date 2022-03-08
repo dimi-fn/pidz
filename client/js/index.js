@@ -1,3 +1,5 @@
+showAllJournals();
+
 // Create array of all input buttons of type submit wrapped in a form
 const button = document.querySelectorAll("form input[type ='submit']");
 
@@ -54,8 +56,9 @@ function sumbitJournal()
             "giphy": ""
         })
     })
+    .then(showAllJournals())
     //Throw an error if it didn't work.
-    .catch ((error) => alert ("Couldn't post, reason: " +error))
+    .catch ((error) => alert ("Couldn't post, reason: " +error));
 };
 
 
