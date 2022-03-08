@@ -117,8 +117,10 @@ function getComments ()
         .catch((error) => alert ("Couldn't get comments, reason: " +error));
 }
 
+//Fetches all comments by journal id - takes a journal id.  - MAKE SURE TO RUN FROM ASYNC function and use AWAIT keyword when calling
 function getCommentsByJournalID(jId)
 {
+    //Return promise to originating function, get the comments data then return it 
     return fetch("http://localhost:3000/byJournalId/"+jId)
         .then((resp) => resp.json())
         .then( (cdata) =>
