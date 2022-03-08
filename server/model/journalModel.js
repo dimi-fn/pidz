@@ -28,7 +28,6 @@ class Journal {
 
     static create(journals){
 
-        // const journalId = 99;
         let journalId = journalData.length +1; // creates the new journal's id
         console.log( "Adding journal with content: " +journals.content);
         let newJournal = new Journal(journalId, journals.content,journals.reactions, journals.giphy, journals.comments);
