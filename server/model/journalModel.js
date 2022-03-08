@@ -1,3 +1,4 @@
+const { throws } = require('assert');
 const fs = require('fs');
 let journalData = require('../data/journalData.js');
 
@@ -64,7 +65,7 @@ class Journal {
                 else
                 {
                     console.log("Journal data saved successfully.");
-                }
+                }                
             })
             
     }
@@ -94,6 +95,24 @@ class Journal {
             }
         })
     }
+
+
+    static updateJournal(id,update)
+    {
+
+        journalData.forEach((jrnl) =>
+        {
+            if (jrnl.id === id)
+            {
+                jrnl.reactions = update;
+                console.log("Updated journal : " +jrnl.id);
+            }
+        });
+
+        this.saveJournals();
+    }
+
+
 }
 
 module.exports = Journal;
