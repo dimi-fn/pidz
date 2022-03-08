@@ -1,3 +1,4 @@
+const e = require('express');
 const fs = require('fs');
 const journalData = require('../data/journalData.js');
 
@@ -51,11 +52,16 @@ class Journal {
         //get the data we want to save
         const dataToSave = JSON.stringify(journalData);
     
+        // use fs.writeFile, specify directory, what to save, and error handling.
         fs.writeFile('../server/data/journalJSONData.txt', dataToSave, err =>
             {
                 if (err)
                 {
                     console.log("Couldn't save journal data, reason: " + err);
+                }
+                else
+                {
+                    console.log("Journal data saved successfully.");
                 }
             })
             

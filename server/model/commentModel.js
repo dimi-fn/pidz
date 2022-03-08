@@ -56,11 +56,16 @@ class Comment {
         //get the data we want to save
         const dataToSave = JSON.stringify(commentData);
 
+        //use fs.writeFile, specify location to save, what to save, and error handling.
         fs.writeFile('../data/commentJSONData.txt', dataToSave, err =>
         {
             if (err)
             {
                 console.log("Couldn't save comment data, reason: " + err);
+            }
+            else
+            {
+                console.log("Successfully saved comment data.");
             }
         })
         
