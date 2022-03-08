@@ -7,7 +7,7 @@ class Comment {
         this.id = id;
         this.journalId= journalId;
         this.content = content;
-        this.reactions = reactions;c     
+        this.reactions = reactions;
         this.giphy = giphy; 
     }
 
