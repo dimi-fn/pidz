@@ -8,8 +8,6 @@ button.forEach( function (thisButton)
     thisButton.addEventListener('click', buttonHandler);
 });
 
-
-
 function buttonHandler (submitEvent) 
 {
     //prevent refresh
@@ -114,4 +112,34 @@ function getComments ()
             return cData
         })
         .catch((error) => alert ("Couldn't get comments, reason: " +error));
+}
+
+let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
+
+document.addEventListener("DOMContentLoaded", giftest)
+// Also add a prevent emepty 
+function giftest() {
+    document.getElementById("btnsearch").addEventListener("click", ev => {
+        ev.preventDefault();
+        let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
+        let str = document.getElementById("search").value.replace(/\s+/g, '')
+        url = url.concat(str.trim());
+        console.log(url)
+        fetch(url)
+        .then(response => response.json()) // json object
+        .then(content => {
+            console.log(content.data)
+            console.log('META', content.meta)
+            let figure = document.createElement('figure');
+            let img = document.createElement('img');
+            img.src = content.data[0].images.downsized.url;  // taken from META 
+            img.alt = content.data[0].title
+            figure.appendChild(img);
+            let out = document.querySelector(".out")
+            out.insertAdjacentElement('afterbegin', figure)
+        })
+        .catch(err =>{
+            console.error(err) // should handler error
+        })
+    })
 }
