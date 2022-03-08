@@ -39,10 +39,16 @@ class Comment {
 
     // creates new comment
     static create(comments){
+        // const commentId = comments.length + 1;
+        // let newComment = new Comment({id: commentId, ...comments})    
+        // commentData.push(newComment);
+        // return newComment;
 
-        const commentId = comments.length + 1;
-        let newComment = new Comment({id: commentId, ...comments});
-    
+        let commentId = commentData.length + 1; // creates the new comment's id
+        console.log(`Adding comment with content: ${comments.content}`);
+        let newComment = new Comment(commentId, comments.journalId, comments.content, comments.reactions, comments.giphy);
+
+        console.log(`New comment: ${comments.content} regading the journal with id: ${comments.journalId}`);
         commentData.push(newComment);
         return newComment;
     }
