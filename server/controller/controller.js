@@ -68,7 +68,7 @@ router.get('/comment/byJournalId/:journalId', (req,res)=> {
     try {
         const journalId = parseInt(req.params.journalId);
         const selectedCommentId = Comment.findById(journalId);
-        res.send(selectedCommentId);
+        res.json(selectedCommentId);
     } catch (error) {
         console.log(error);
         res.status(404).send(error); 
