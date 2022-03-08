@@ -37,10 +37,32 @@ We believe that our website can help the mental health of visitors by reducing [
 
 ## Installation
 
+* Clone or download the repo.
+* Open terminal and navigate to the server directory.
+* Run `npm install` to install dependencies.
+
 --------
 
 ## Server
 
+* Open terminal and navigate to the server directory.
+* Initialize an npm package: `npm init -y`
+* Install express: `npm install express`
+* Install body-parser to be able to request the body: `npm install body-parser`
+* Install jest for testing: `npm install jest --save-dev`
+* Install supertest for testing: `npm install supertest --save-dev`
+* Install cors: `npm install cors --save`
+* Optionally install nodemon to update changes from server without having to re-launch the server when changes are taken place: `npm install nodemon --save-dev`
+* Update the package.json file as followed: 
+
+        "scripts": {
+            "start": "node server.js",
+            "test": "jest --watch --silent",
+            "coverage": "jest --coverage",
+            "dev": "nodemon server.js"
+
+* Run the server: `npm run dev`            
+* To test the files of the server run: `npm run test`, or `npm run coverage` to also get the percent of the degree to which the source code of the program is executed when running the respective tests.
 
 --------
 
@@ -50,9 +72,17 @@ We believe that our website can help the mental health of visitors by reducing [
 
 # Technologies
 
+* HTML/CSS, JavaScript
+
 --------
 
 # Process
+
+* Created an initial design of the website at wireframe.cc
+* Set up the server with a *models* and *controllers* directory, and got the server running
+* Created test scripts for testing the server
+* Set up the client side (............)
+* (..................)
 
 --------
 
