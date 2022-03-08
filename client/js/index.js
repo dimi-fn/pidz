@@ -62,6 +62,9 @@ function sumbitJournal()
 //Refreshes screen, displaying all Journals and comments
 async function showAllJournals()
 {
+    //Clear what's on screen rn.
+    document.getElementById("displayJournalsSection").innerHTML="";
+
     //Create variables containing both sets of data, by calling functions which return journals and comments
     let journalData = await getJournals();
     let commentData = await getComments();
@@ -69,11 +72,37 @@ async function showAllJournals()
     //Loop through our journals
     journalData.forEach((jrnl) =>
     {
-        //Creating P elements and adding them to the display section for the journal
-        let paragraph = document.createElement("p");
-        let paragraphContent = document.createTextNode(JSON.stringify(jrnl.content));
-        paragraph.appendChild(paragraphContent);
-        document.getElementById("displayJournalsSection").appendChild(paragraph );
+        //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
+        let journalDiv = document.createElement("div");
+        journalDiv.setAttribute("id",jrnl.id+"div");
+        journalDiv.setAttribute("class","journal");
+
+        //Create P element to display journal id
+        let journalIDP = document.createElement("p");
+        journalIDP.setAttribute("id",jrnl.id+ "idp");
+        journalIDP.innerText = "Journal id:" + jrnl.id;
+
+
+        //Create P element to display journal content
+        let journalContentP = document.createElement("p");
+        journalContentP.setAttribute("id",jrnl.id+"contentp");
+        journalContentP.innerText = jrnl.content;
+        
+        //Create a P element to display giphy
+        let journalGiphyP = document.createElement("p");
+        journalGiphyP.setAttribute("id",jrnl.id+"giphyp");
+
+        //create a P element to display reactions
+        let journalReactionP = document.createElement("p");
+        journalReactionP.setAttribute("id",jrnl.id+"reactionp");
+        journalReactionP.innerHTML = jrnl.reactions;
+
+
+        //Put them all together
+        journalDiv.appendChild(journalIDP).appendChild(journalContentP).appendChild(journalGiphyP).appendChild(journalReactionP);
+
+        //Add them to page
+        document.getElementById("displayJournalsSection").appendChild(journalDiv);
 
         //Then loop through the comments
         commentData.forEach((cmt) =>
@@ -81,10 +110,37 @@ async function showAllJournals()
             //and if the current comment.jounralId === journal.id, add it on beneath the current journal
             if (cmt.journalId === jrnl.id)
             {
-                let cmtBlock = document.createElement("blockquote");
-                let cmtContent = document.createTextNode(JSON.stringify(cmt.content));
-                cmtBlock.appendChild(cmtContent)
-                document.getElementById("displayJournalsSection").appendChild(cmtBlock);
+                //create a new comment div
+                let cmtDiv = document.createElement("div");
+                cmtDiv.setAttribute("id",cmt.id+"div");
+                cmtDiv.setAttribute("class","comment");
+
+                //create a p to store comment id
+                let cmtIdP = document.createElement("p");
+                cmtIdP.setAttribute("id",cmt.id+"idp");
+                cmtIdP.innerText = "Comment id: " +cmt.id;
+
+                //create a p to store comment content
+                let cmtContentP = document.createElement("p");
+                cmtContentP.setAttribute("id",cmt.id+"contentp");
+                cmtContentP.innerText = cmt.content;
+
+                //create a p to store comment giphy
+                let cmtGiphyP = document.createElement("p");
+                cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
+                cmtGiphyP.innerHTML = cmt.giphy;
+
+                //create a p to store comment reactions
+                let cmtReactionP = document.createElement("p");
+                cmtReactionP.setAttribute("id",cmt.id+"reactionp");
+                cmtReactionP.innerHTML= cmt.reactions;
+
+
+
+                //Add them all together
+                cmtDiv.appendChild(cmtIdP).appendChild(cmtContentP).appendChild(cmtGiphyP).appendChild(cmtReactionP);
+
+                document.getElementById("displayJournalsSection").appendChild(cmtDiv);
             }
         });
     });
