@@ -10,6 +10,8 @@ router.get('/', (req,res) =>
     res.sendFile("../client/index.html", { root: '..'});
 });
 
+
+/***************************** Journals **********************************************/
 // returns all journals
 router.get('/allJournals', (req,res) =>
 {
@@ -31,20 +33,10 @@ router.get('/journal/:id', (req,res)=> {
     }
 });
 
-// returns all comments (array of objects)
-router.get('/allComments', (req,res) =>
-{
-    res.set('Content-Type', 'application/json');
-    let theCommentData = Comment.all;
-    res.status(200);
-    res.json(theCommentData);
-});
-
 // this posts a new journal
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Needs to be fixed, req/res not in use !!!!!!!!!!!!!!!!
+// !!!!!!!!! Needs to be fixed, req/res not in use ?
 router.post('/newJournal', (req,res) =>
 {
-
     const data = req.body;
 
     try{
@@ -62,6 +54,44 @@ router.post('/newJournal', (req,res) =>
     }
 });
 
+//Update a journal with new reaction array update 
+router.patch('/journal/update/:id', (req,res) =>
+{
+    //get the id we're updating
+    const journalId= parseInt(req.params.id);
+    //get the reaction data from body to update
+    const updateData = req.body.reactions;
+
+    try
+    {
+        //call journal update function, pass journalid and the data (reactions)
+        Journal.updateJournal(journalId, updateData);
+        res.status(200);
+    }
+    catch (err)
+    {
+        console.log("Failed to update at controller, error: " +err);
+    }
+
+});
+
+router.delete('/journal/:id', (req, res)=> {
+    const journalId = parseInt(req.params.id);
+    const journalToDestroy = Journal.findById(journalId);
+    journalToDestroy.destroy();
+    res.status(204).send();
+    
+})
+
+/***************************** Comments **********************************************/
+// returns all comments (array of objects)
+router.get('/allComments', (req,res) =>
+{
+    res.set('Content-Type', 'application/json');
+    let theCommentData = Comment.all;
+    res.status(200);
+    res.json(theCommentData);
+});
 
 router.post('/newComment', (req,res) =>
 {
@@ -92,26 +122,6 @@ router.get('/comment/byJournalId/:journalId', (req,res)=> {
     }
 });
 
-//Update a journal with new reaction array update 
-router.patch('/journal/update/:id', (req,res) =>
-{
-    //get the id we're updating
-    const journalId= parseInt(req.params.id);
-    //get the reaction data from body to update
-    const updateData = req.body.reactions;
-
-    try
-    {
-        //call journal update function, pass journalid and the data (reactions)
-        Journal.updateJournal(journalId, updateData);
-        res.status(200);
-    }
-    catch (err)
-    {
-        console.log("Failed to update at controller, error: " +err);
-    }
-
-});
 
 router.patch('/comment/update/:id', (req,res) =>
 {
@@ -130,18 +140,4 @@ router.patch('/comment/update/:id', (req,res) =>
 
 });
 
-
-
-router.delete('/journal/:id', (req, res)=> {
-    const journalId = parseInt(req.params.id);
-    const journalToDestroy = Journal.findById(journalId);
-    journalToDestroy.destroy();
-    res.status(204).send();
-    
-})
-
-
-
-
 module.exports = router;
-
