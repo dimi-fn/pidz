@@ -140,6 +140,7 @@ async function showAllJournals()
                 //Add them all together
                 cmtDiv.appendChild(cmtIdP).appendChild(cmtContentP).appendChild(cmtGiphyP).appendChild(cmtReactionP);
 
+                //Add them onto our journal section below their respective journal.
                 document.getElementById("displayJournalsSection").appendChild(cmtDiv);
             }
         });
@@ -186,7 +187,31 @@ function getCommentsByJournalID(jId)
         .catch((error) => alert("Couldn't get comments, reason: " +error));
 }
 
+function updateJournalReactions(jId,reaction)
+{
+    fetch("http://localhost:3000/journal/update/"+jId,
+    {
+    method: "PATCH",
+    headers: { 'Content-Type' : 'application/Json'},
+    body:   JSON.stringify({
+        "id": jId,
+        "reactions" : reaction
+    })
+    });
+}
 
+function updateCommentReactions(cId,reaction)
+{
+    fetch("http://localhost:3000/comment/update/"+cId,
+    {
+    method: "PATCH",
+    headers: { 'Content-Type' : 'application/Json'},
+    body:   JSON.stringify({
+        "id": cId,
+        "reactions" : reaction
+    })
+    });
+}
 
 
 
@@ -224,33 +249,6 @@ function giftest() {
                 out.insertAdjacentElement('afterbegin', figure)
             }
 
-
-            // let figure = document.createElement('figure');
-            // let s_figure = document.createElement('figure')
-            // let t_figure = document.createElement('figure')
-            // let f_figure = document.createElement('figure')
-            // let img = document.createElement('img');
-            // let s_img = document.createElement('img')
-            // let t_img = document.createElement('img')
-            // let f_img = document.createElement('img')
-            // img.src = content.data[0].images.downsized.url;
-            // s_img.src = content.data[1].images.downsized.url;
-            // t_img.src = content.data[2].images.downsized.url;
-            // f_img.src = content.data[3].images.downsized.url;
-            // img.alt = content.data[1].title // taken from META 
-            // img.alt = content.data[0].title
-            // figure.appendChild(img);
-            // s_figure.appendChild(s_img)
-            // t_figure.appendChild(t_img)
-            // f_figure.appendChild(f_img)
-            // let out = document.querySelector("#first_image")
-            // out.insertAdjacentElement('afterbegin', figure)
-            // let second_image = document.querySelector("#second_image")
-            // second_image.insertAdjacentElement('afterbegin',s_figure)
-            // let third_image = document.querySelector("#third_image")
-            // third_image.insertAdjacentElement('afterbegin', t_figure)
-            // let fourth_image = document.querySelector("#fourth_image")
-            // fourth_image.insertAdjacentElement('afterbegin',f_figure)
             picture_selection()
         })
         .catch(err =>{
