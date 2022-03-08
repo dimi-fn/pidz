@@ -67,7 +67,7 @@ router.post('/newJournal', (req,res) =>
 router.get('/comment/byJournalId/:journalId', (req,res)=> {
     try {
         const journalId = parseInt(req.params.journalId);
-        const selectedCommentId = Comment.findById(journalId);
+        const selectedCommentId = Comment.findCommentByJournalId(journalId);
         res.json(selectedCommentId);
     } catch (error) {
         console.log(error);
