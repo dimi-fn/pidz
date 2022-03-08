@@ -1,4 +1,4 @@
-const { Console } = require('console');
+// const { Console } = require('console');
 const journalData = require('../data/journalData.js');
 
 class Journal {
