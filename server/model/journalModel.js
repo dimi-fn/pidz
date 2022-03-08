@@ -1,3 +1,4 @@
+const fs = require('fs');
 const journalData = require('../data/journalData.js');
 
 class Journal {
