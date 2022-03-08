@@ -1,4 +1,4 @@
-const { Console } = require('console');
+const fs = require('fs');
 const journalData = require('../data/journalData.js');
 
 class Journal {
@@ -35,12 +35,30 @@ class Journal {
         console.log("New journal content: " +newJournal.content);
 
         journalData.push(newJournal);
+        this.saveJournals();
         return newJournal;
-    }
+    };
 
-    destroy(){
+   static destroy(){
         const journal = journalData.filter((journal) => journal.id === this.id)[0];
         journalData.splice(journalData.indexOf(journal), 1);
+    };
+
+
+    //Call this method after making any change, i.e. create comment or update comment.  MAY want to use Async and await to stop processing other functions.
+    static saveJournals()
+    {
+        //get the data we want to save
+        const dataToSave = JSON.stringify(journalData);
+    
+        fs.writeFile('../server/data/journalJSONData.txt', dataToSave, err =>
+            {
+                if (err)
+                {
+                    console.log("Couldn't save journal data, reason: " + err);
+                }
+            })
+            
     }
 }
 

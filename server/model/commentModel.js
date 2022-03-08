@@ -1,3 +1,4 @@
+const fs = require('fs');
 const commentData = require('../data/commentData.js');
 
 class Comment {
@@ -44,8 +45,28 @@ class Comment {
         let newComment = new Comment({id: commentId, ...comments});
     
         commentData.push(newComment);
+        this.saveComments();
         return newComment;
     }
+
+
+    //Call this method after making any change, i.e. create comment or update comment.  MAY want to use Async and await to stop processing other functions.
+    static saveComments()
+    {
+        //get the data we want to save
+        const dataToSave = JSON.stringify(commentData);
+
+        fs.writeFile('../data/commentJSONData.txt', dataToSave, err =>
+        {
+            if (err)
+            {
+                console.log("Couldn't save comment data, reason: " + err);
+            }
+        })
+        
+    }
+
+
 }
 
 module.exports = Comment;
