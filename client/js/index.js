@@ -72,6 +72,9 @@ async function showAllJournals()
     let journalData = await getJournals();
     let commentData = await getComments();
 
+    //Sort our journals in descending order by id
+    journalData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
+
     //Loop through our journals
     journalData.forEach((jrnl) =>
     {
