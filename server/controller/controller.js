@@ -3,6 +3,7 @@ const Journal = require('../model/journalModel');
 const Comment = require('../model/commentModel');
 const router = express.Router();
 const bodyParser = require ('body-parser');
+const { send } = require('process');
 
 router.get('/', (req,res) =>
 {
@@ -45,7 +46,6 @@ router.post('/newJournal', (req,res) =>
 {
 
     const data = req.body;
-    console.log("data is: "+ data.content)
 
     try{
     //get the data for our new journal
@@ -55,8 +55,7 @@ router.post('/newJournal', (req,res) =>
     //create journal obj
     const newJournal = Journal.create(testData);
     res.status(201).send(newJournal);
-    //do something
-    //console.log(`Created journal, ${newJournal.id}`);
+
     }catch (error){
         throw new Error ('Failed to create journal for reason: ' + error);
         res.status(400).send()
@@ -73,6 +72,41 @@ router.get('/comment/byJournalId/:journalId', (req,res)=> {
         console.log(error);
         res.status(404).send(error); 
     }
+});
+
+
+router.patch('/journal/update/:id', (req,res) =>
+{
+    const journalId= parseInt(req.params.id);
+    const updateData = req.body.reactions;
+
+    try
+    {
+        Journal.updateJournal(journalId, updateData);
+        res.status(200);
+    }
+    catch (err)
+    {
+        console.log("Failed to update at controller, error: " +err);
+    }
+
+});
+
+router.patch('/comment/update/:id', (req,res) =>
+{
+    const commentId= parseInt(req.params.id);
+    const updateData = req.body.reactions;
+
+    try
+    {
+        Comment.updateComment(commentId, updateData);
+        res.status(200);
+    }
+    catch (err)
+    {
+        console.log("Failed to update at controller, error: " +err);
+    }
+
 });
 
 
