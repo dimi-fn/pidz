@@ -99,7 +99,7 @@ function getJournals ()
         .then( (resp) => resp.json())
         .then( (jData) => 
         {
-            return jData
+            return jData;
         })
         .catch((error) => alert ("Couldn't get journals, reason: " +error));
 }
@@ -112,16 +112,20 @@ function getComments ()
         .then( (resp) => resp.json())
         .then( (cData) => 
         {
-            return cData
+            return cData;
         })
         .catch((error) => alert ("Couldn't get comments, reason: " +error));
 }
 
 function getCommentsByJournalID(jId)
 {
-
-    
-
+    return fetch("http://localhost:3000/byJournalId/"+jId)
+        .then((resp) => resp.json())
+        .then( (cdata) =>
+        {
+            return cdata;
+        })
+        .catch((error) => alert("Couldn't get comments, reason: " +error));
 }
 
 
