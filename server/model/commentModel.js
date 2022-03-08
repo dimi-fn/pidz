@@ -15,13 +15,25 @@ class Comment {
         return commentData;
     }
 
-    static findById(id){
+    // finds comment based on id 
+    static findCommentById(id){
         try{
             const commentArr = commentData.filter((comments)=> comments.id ===id)[0];
-            const comment = new Comment (commentArr.id, commentArr.journalId, journalArr.content, commentArr.reactions, commentArr.giphy);
+            const comment = new Comment (commentArr.id, commentArr.journalId, commentArr.content, commentArr.reactions, commentArr.giphy);
             return comment;
         } catch (error) {
             throw new Error("That comment does not exist!");
+        }        
+    }
+
+    // finds comment based on journalId
+    static findCommentByJournalId(journalId){
+        try{
+            const commentArrJourn = commentData.filter((comments)=> comments.journalId ===journalId)[0];
+            const commentByJournal = new Comment (commentArrJourn.id, commentArrJourn.journalId, commentArrJourn.content, commentArrJourn.reactions, commentArrJourn.giphy);
+            return commentByJournal;
+        } catch (error) {
+            throw new Error("That journal id doesn't have any comments!");
         }        
     }
 
