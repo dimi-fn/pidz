@@ -104,6 +104,23 @@ class Comment {
         });
     }
 
+    
+    static updateComment(id,update)
+    {
+
+        CommentData.forEach((cmt) =>
+        {
+            if (cmt.id === id)
+            {
+                cmt.reactions = update;
+                console.log("Updated comment : " +cmt.id);
+            }
+        });
+
+        this.saveComments();
+    }
+
+
 
 }
 
