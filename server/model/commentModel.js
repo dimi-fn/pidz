@@ -1,5 +1,6 @@
+const { throws } = require('assert');
 const fs = require('fs');
-const commentData = require('../data/commentData.js');
+let commentData = require('../data/commentData.js');
 
 class Comment {
 
@@ -13,11 +14,13 @@ class Comment {
     }
 
     static get all(){
+        this.loadComments();
         return commentData;
     }
 
     // finds comment based on id 
     static findCommentById(id){
+        this.loadComments();
         try{
             const commentArr = commentData.filter((comments)=> comments.id ===id)[0];
             const comment = new Comment (commentArr.id, commentArr.journalId, commentArr.content, commentArr.reactions, commentArr.giphy);
@@ -29,6 +32,7 @@ class Comment {
 
     // finds comment based on journalId
     static findCommentByJournalId(journalId){
+        this.loadComments();
         try{
             const commentArrJourn = commentData.filter((comments)=> comments.journalId ===journalId)[0];
             const commentByJournal = new Comment (commentArrJourn.id, commentArrJourn.journalId, commentArrJourn.content, commentArrJourn.reactions, commentArrJourn.giphy);
@@ -40,6 +44,7 @@ class Comment {
 
     // creates new comment
     static create(comments){
+        this.loadComments();
 
         const commentId = comments.length + 1;
         let newComment = new Comment({id: commentId, ...comments});
@@ -50,14 +55,14 @@ class Comment {
     }
 
 
-    //Call this method after making any change, i.e. create comment or update comment.  MAY want to use Async and await to stop processing other functions.
+    //Call this method after making any change, i.e. create comment or update comment. 
     static saveComments()
     {
         //get the data we want to save
         const dataToSave = JSON.stringify(commentData);
 
         //use fs.writeFile, specify location to save, what to save, and error handling.
-        fs.writeFile('../data/commentJSONData.txt', dataToSave, err =>
+        fs.writeFile('../server/data/commentJSONData.txt', dataToSave, err =>
         {
             if (err)
             {
@@ -69,6 +74,33 @@ class Comment {
             }
         })
         
+    }
+
+    // Call this before loading any data to ensure up to date with comments
+    static loadComments()
+    {
+
+        //variable we'll use to store the loaded and parsed data
+        let parsedData;
+
+        //read data from file, location, format, error and data handling
+        fs.readFile('../server/data/commentJSONData.txt', 'utf-8', (err, data) =>
+        {
+            //if we got error rather than data - log it
+            if(err)
+            {
+                console.log("Couldn't load comment data for reason: " +err);
+            }
+            // if we got the data back, parse it and assign it to commentData
+            else
+            {
+                parsedData = JSON.parse(data);
+
+                console.log("Comments loaded, data: " +parsedData);
+
+                commentData = parsedData;
+            }
+        });
     }
 
 

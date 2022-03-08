@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require ('body-parser');
 const path = require('path');
+const Journal = require('./model/journalModel');
+const Comment = require('./model/commentModel');
 
 //create server
 const server = express();
@@ -18,6 +20,7 @@ server.use(express.static(path.join(__dirname, "../client")));
 
 //Routing
 const siteRoutes = require("./controller/controller.js");
+const comments = require('./data/commentData');
 server.use('/',siteRoutes);
 
 //start server
@@ -25,3 +28,6 @@ server.listen(port, () => console.log(`Server listening on port: ${port}`));
 
 module.exports = server;
 
+//populate our data
+Journal.loadJournals();
+Comment.loadComments();

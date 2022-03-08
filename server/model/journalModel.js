@@ -1,19 +1,19 @@
 const e = require('express');
 const fs = require('fs');
-const journalData = require('../data/journalData.js');
+let journalData = require('../data/journalData.js');
 
 class Journal {
 
-    constructor(id, content, reactions, giphy, comments) {
+    constructor(id, content, reactions, giphy) {
 
         this.id = id;
         this.content= content;
         this.reactions = reactions;
-        this.giphy = giphy;
-        this.comments = comments;        
+        this.giphy = giphy;    
     }
 
     static get all(){
+        this.loadJournals();
         return journalData;
     }
 
@@ -28,6 +28,7 @@ class Journal {
     }
 
     static create(journals){
+        this.loadJournals();
 
         let journalId = journalData.length +1; // creates the new journal's id
         console.log( "Adding journal with content: " +journals.content);
@@ -41,12 +42,14 @@ class Journal {
     };
 
    static destroy(){
+       this.loadJournals();
+
         const journal = journalData.filter((journal) => journal.id === this.id)[0];
         journalData.splice(journalData.indexOf(journal), 1);
     };
 
 
-    //Call this method after making any change, i.e. create comment or update comment.  MAY want to use Async and await to stop processing other functions.
+    //Call this method after making any change, i.e. create or update journals.  
     static saveJournals()
     {
         //get the data we want to save
@@ -65,6 +68,32 @@ class Journal {
                 }
             })
             
+    }
+
+    //Loads journals from file, sets journalData to equal the data loaded.  Call this before getting data to ensure up to date.
+    static loadJournals()
+    {
+        //variable we'll use to store the loaded and parsed data
+        let parsedData;
+
+        //read data from file, location, format, error and data handling
+        fs.readFile('../server/data/journalJSONData.txt', 'utf-8', (err, data) =>
+        {
+            //if we got error rather than data - log it
+            if(err)
+            {
+                console.log("Couldn't load journal data for reason: " +err);
+            }
+            // if we got the data back, parse it and assign it to journalData
+            else
+            {
+                parsedData = JSON.parse(data);
+
+                console.log("Journals loaded, data: " +parsedData);
+
+                journalData = parsedData;
+            }
+        })
     }
 }
 

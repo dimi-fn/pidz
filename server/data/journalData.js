@@ -1,5 +1,7 @@
+const fs = require('fs');
+
 // Defines Journal object
-// id: number  // content: string // reactions: array [a,b,c] // giphy: (objects??)
+// id: number  // content: string // reactions: array [a,b,c] // giphy: string - points to image
 
 let journals = 
 [
