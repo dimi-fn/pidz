@@ -18,7 +18,7 @@ router.get('/allJournals', (req,res) =>
     res.json(theData);
 });
 
-// return journal based on id
+// return journal based on journal's id
 router.get('/journal/:id', (req,res)=> {
     try {
         const journalId = parseInt(req.params.id);
@@ -30,7 +30,7 @@ router.get('/journal/:id', (req,res)=> {
     }
 });
 
-// returns all comments
+// returns all comments (array of objects)
 router.get('/allComments', (req,res) =>
 {
     res.set('Content-Type', 'application/json');
@@ -63,7 +63,7 @@ router.post('/newJournal', (req,res) =>
     }
 });
 
-
+// gets comment (array of object type) based on journal's id the comment belongs to
 router.get('/comment/byJournalId/:journalId', (req,res)=> {
     try {
         const journalId = parseInt(req.params.journalId);
