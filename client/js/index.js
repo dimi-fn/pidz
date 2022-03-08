@@ -142,6 +142,8 @@ function getCommentsByJournalID(jId)
 
 let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
 
+
+
 document.addEventListener("DOMContentLoaded", giftest)
 // Also add a prevent emepty 
 function giftest() {
@@ -183,6 +185,7 @@ function giftest() {
             let fourth_image = document.querySelector("#fourth_image")
             fourth_image.insertAdjacentElement('afterbegin',f_figure)
             picture_selection()
+            
         })
         .catch(err =>{
             console.error(err) // should handler error
@@ -217,6 +220,6 @@ function picture_selection() {
         resp.preventDefault()
         first.remove()
         third.remove()
-        fourth.remove()
+        second.remove()
     })
 }
