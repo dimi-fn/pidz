@@ -136,6 +136,10 @@ function getCommentsByJournalID(jId)
 
 // ************* GIPHY CODE BELOW ************* //
 
+// add in a way to select multiple gifs
+
+// add in a way to let the user to choose from multiple gifs 
+
 let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
 
 document.addEventListener("DOMContentLoaded", giftest)
@@ -153,15 +157,66 @@ function giftest() {
             console.log(content.data)
             console.log('META', content.meta)
             let figure = document.createElement('figure');
+            let s_figure = document.createElement('figure')
+            let t_figure = document.createElement('figure')
+            let f_figure = document.createElement('figure')
             let img = document.createElement('img');
-            img.src = content.data[0].images.downsized.url;  // taken from META 
+            let s_img = document.createElement('img')
+            let t_img = document.createElement('img')
+            let f_img = document.createElement('img')
+            img.src = content.data[0].images.downsized.url;
+            s_img.src = content.data[1].images.downsized.url;
+            t_img.src = content.data[2].images.downsized.url;
+            f_img.src = content.data[3].images.downsized.url;
+            img.alt = content.data[1].title // taken from META 
             img.alt = content.data[0].title
             figure.appendChild(img);
-            let out = document.querySelector(".out")
+            s_figure.appendChild(s_img)
+            t_figure.appendChild(t_img)
+            f_figure.appendChild(f_img)
+            let out = document.querySelector("#first_image")
             out.insertAdjacentElement('afterbegin', figure)
+            let second_image = document.querySelector("#second_image")
+            second_image.insertAdjacentElement('afterbegin',s_figure)
+            let third_image = document.querySelector("#third_image")
+            third_image.insertAdjacentElement('afterbegin', t_figure)
+            let fourth_image = document.querySelector("#fourth_image")
+            fourth_image.insertAdjacentElement('afterbegin',f_figure)
+            picture_selection()
         })
         .catch(err =>{
             console.error(err) // should handler error
         })
+    })
+}
+
+function picture_selection() {
+    let first = document.getElementById("first_image")
+    let second = document.getElementById("second_image")
+    let third = document.getElementById("third_image")
+    let fourth = document.getElementById("fourth_image")
+    document.getElementById("first_image").addEventListener('click', resp => {
+        resp.preventDefault()
+        second.remove()
+        third.remove()
+        fourth.remove()
+    })
+    document.getElementById("second_image").addEventListener('click', resp => {
+        resp.preventDefault()
+        first.remove()
+        third.remove()
+        fourth.remove()
+    })
+    document.getElementById("third_image").addEventListener('click', resp => {
+        resp.preventDefault()
+        first.remove()
+        second.remove()
+        fourth.remove()
+    })
+    document.getElementById("fourth_image").addEventListener('click', resp => {
+        resp.preventDefault()
+        first.remove()
+        third.remove()
+        fourth.remove()
     })
 }

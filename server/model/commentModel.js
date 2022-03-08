@@ -9,7 +9,7 @@ class Comment {
         this.id = id;
         this.journalId= journalId;
         this.content = content;
-        this.reactions = reactions;c     
+        this.reactions = reactions;
         this.giphy = giphy; 
     }
 
@@ -35,7 +35,7 @@ class Comment {
         this.loadComments();
         try{
             const commentArrJourn = commentData.filter((comments)=> comments.journalId ===journalId)[0];
-            const commentByJournal = new Comment (commentArrJourn.id, commentArrJourn.journalId, commentArrJourn.content, commentArrJourn.reactions, commentArrJourn.giphy);
+            const commentByJournal = new Comment(commentArrJourn.id, commentArrJourn.journalId, commentArrJourn.content, commentArrJourn.reactions, commentArrJourn.giphy);
             return commentByJournal;
         } catch (error) {
             throw new Error("That journal id doesn't have any comments!");
@@ -45,10 +45,11 @@ class Comment {
     // creates new comment
     static create(comments){
         this.loadComments();
+        let commentId = commentData.length + 1; // creates the new comment's id
+        console.log(`Adding comment with content: ${comments.content}`);
+        let newComment = new Comment(commentId, comments.journalId, comments.content, comments.reactions, comments.giphy);
 
-        const commentId = comments.length + 1;
-        let newComment = new Comment({id: commentId, ...comments});
-    
+        console.log(`New comment: ${comments.content} regading the journal with id: ${comments.journalId}`);
         commentData.push(newComment);
         this.saveComments();
         return newComment;

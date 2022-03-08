@@ -1,4 +1,3 @@
-const e = require('express');
 const fs = require('fs');
 let journalData = require('../data/journalData.js');
 
