@@ -4,7 +4,7 @@ let journalData = require('../data/journalData.js');
 
 class Journal {
 
-    constructor(id, content, reactions, giphy) {
+    constructor(id, content, reactions = [0,0,0], giphy = "") {
 
         this.id = id;
         this.content= content;
