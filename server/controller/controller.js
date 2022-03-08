@@ -63,20 +63,18 @@ router.post('/newJournal', (req,res) =>
     }
 });
 
-// router.post('/newJournal', (req,res) =>
-// {
 
-//     const data = req.body;
-//     console.log("data is: "+ data.content)
+router.get('/comment/byJournalId/:journalId', (req,res)=> {
+    try {
+        const journalId = parseInt(req.params.journalId);
+        const selectedCommentId = Comment.findById(journalId);
+        res.send(selectedCommentId);
+    } catch (error) {
+        console.log(error);
+        res.status(404).send(error); 
+    }
+});
 
-//   try {
-//     const newJournal = Journal.create(data); //Creates a new instance of journal
-    
-//     res.status(201).send(newJournal);
-//   } catch (e) {
-//     res.status(400).send(`<h1>Failed to create journal for reason: ${e}</h1>`);
-//   }
-// });
 
 
 router.delete('/journal/:id', (req, res)=> {
