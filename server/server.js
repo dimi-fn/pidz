@@ -26,8 +26,9 @@ server.use('/',siteRoutes);
 //start server
 server.listen(port, () => console.log(`Server listening on port: ${port}`));
 
-module.exports = server;
-
 //populate our data
 Journal.loadJournals();
 Comment.loadComments();
+
+//export server for use
+module.exports = server;
