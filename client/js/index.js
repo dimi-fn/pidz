@@ -8,6 +8,8 @@ button.forEach( function (thisButton)
     thisButton.addEventListener('click', buttonHandler);
 });
 
+
+//Takes clicks on buttons and handles them, calling appropriate functions depending on which button was clicked
 function buttonHandler (submitEvent) 
 {
     //prevent refresh
@@ -16,65 +18,67 @@ function buttonHandler (submitEvent)
     //Get the id of the button that was clicked
     let choice = submitEvent.target.getAttribute("id");
 
-    //If choice === testSubmitJournal  DO STUFF
+    //If choice === testSubmitJournal submit the new journal
     if (choice === 'testSubmitJournal')
     {
         sumbitJournal();
     }
-    // If choice === refreshJournals // do stuff
+    // If choice === refreshJournals // call showAllJournals 
     else if (choice === 'refreshJournals')
     {
         showAllJournals();
     }
+    //If choice is none of these // throw debug error alert
     else
     {
         alert("Don't know what clicked, target is: " +submitEvent.target.getAttribute("id"));
     }
 }
 
-
+//Gets content entered into contentInputBox, then posts the new journal
 function sumbitJournal()
 {
-
+    //get text input into the box
     let contentInput = document.getElementById("contentInputBox").value;
-    console.log("content body to submit is " + contentInput);
 
+    //POST the journal
     fetch("http://localhost:3000/newJournal", 
     {
         method: "POST",
         headers: { 'Content-Type' : 'application/Json'},
         body:   JSON.stringify({
+            //details to send - id is irrelevant, our backend resolves.
             "id": 99,
             "content": contentInput,
-            "reactions" : "",
+            "reactions" : [0,0,0],
             "giphy": ""
         })
     })
+    //Throw an error if it didn't work.
     .catch ((error) => alert ("Couldn't post, reason: " +error))
-    
-
 };
 
 
+//Refreshes screen, displaying all Journals and comments
 async function showAllJournals()
 {
+    //Create variables containing both sets of data, by calling functions which return journals and comments
     let journalData = await getJournals();
     let commentData = await getComments();
 
-
-    console.log("Journal data: " +journalData)
-    console.log("Journal data: " +commentData)
-
-
+    //Loop through our journals
     journalData.forEach((jrnl) =>
     {
+        //Creating P elements and adding them to the display section for the journal
         let paragraph = document.createElement("p");
         let paragraphContent = document.createTextNode(JSON.stringify(jrnl.content));
         paragraph.appendChild(paragraphContent);
         document.getElementById("displayJournalsSection").appendChild(paragraph );
 
+        //Then loop through the comments
         commentData.forEach((cmt) =>
         {
+            //and if the current comment.jounralId === journal.id, add it on beneath the current journal
             if (cmt.journalId === jrnl.id)
             {
                 let cmtBlock = document.createElement("blockquote");
@@ -83,16 +87,14 @@ async function showAllJournals()
                 document.getElementById("displayJournalsSection").appendChild(cmtBlock);
             }
         });
-
-
     });
-  
 }
 
 
-
+//Fetches all journals - MAKE SURE TO RUN FROM ASYNC function and use AWAIT keyword when calling
 function getJournals ()
 {
+    //Return promise to originating function, get the journal data then return it 
     return fetch("http://localhost:3000/allJournals")
         .then( (resp) => resp.json())
         .then( (jData) => 
@@ -102,9 +104,10 @@ function getJournals ()
         .catch((error) => alert ("Couldn't get journals, reason: " +error));
 }
 
-
+//Fetches all comments - MAKE SURE TO RUN FROM ASYNC function and use AWAIT keyword when calling
 function getComments ()
 {
+    //Return promise to originating function, get the comments data then return it 
     return fetch("http://localhost:3000/allComments")
         .then( (resp) => resp.json())
         .then( (cData) => 
@@ -113,6 +116,19 @@ function getComments ()
         })
         .catch((error) => alert ("Couldn't get comments, reason: " +error));
 }
+
+function getCommentsByJournalID(jId)
+{
+
+    
+
+}
+
+
+
+
+
+// ************* GIPHY CODE BELOW ************* //
 
 let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
 
