@@ -1,6 +1,5 @@
 // Defines Journal object
-// id: number  // content: string // reactions: objects(?) // giphy: (objects??)
-// comments: array of comment objects
+// id: number  // content: string // reactions: array [a,b,c] // giphy: (objects??)
 
 let journals = 
 [
@@ -8,23 +7,20 @@ let journals =
 
         id: 1,
         content: 'Test content',
-        reactions: '',
-        giphy: '',
-        comments: ''
+        reactions: [4,2,5],
+        giphy: ''
     },
     {
         id: 2,
         content: 'Test 2',
-        reactions: '',
-        giphy: '',
-        comments: ''
+        reactions: [3,5,2],
+        giphy: ''
     },
     {
         id: 3,
         content: 'Test 3',
-        reactions: '',
-        giphy: '',
-        comments: ''
+        reactions: [0,1,35],
+        giphy: ''
     },
 ];
 
