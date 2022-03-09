@@ -99,9 +99,6 @@ class Comment {
             else
             {
                 parsedData = JSON.parse(data);
-
-                console.log("Comments loaded, data: " +parsedData);
-
                 commentData = parsedData;
             }
         });
