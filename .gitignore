@@ -1,2 +1,4 @@
 node_modules/
 /server/coverage
+/client/node_modules
+/client/coverage
