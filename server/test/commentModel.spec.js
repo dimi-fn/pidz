@@ -47,7 +47,7 @@ describe("comment", () => {
 
     it('should create a comment', () => {
         const newCommentId = commentData.length + 1;
-        const newComment = Cooment.create(testComment);
+        const newComment = Comment.create(testComment);
 
         expect(newComment).toEqual({ id: newCommentId, ...testComment });
     });
