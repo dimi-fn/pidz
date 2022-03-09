@@ -4,6 +4,7 @@
 Contents
 =======================
 * [Project Description](#project-description)
+    * [Website Functionality](#website-functionality)
 * [Installation & Usage](#installation--usage)
     * [Installation](#installation)
     * [Server](#server)
@@ -30,6 +31,19 @@ Anyone who wants to post whatever they want, anonymously, without fear of judgem
 Nojudgies.com provides a safe place where users can freely and anonymously express their thoughts that they couldn't most other places and get things off their chest.
 
 We believe that our website can help the mental health of visitors by reducing [stigma](https://www.ccmhrsb.org/stop-the-judgement), bullying, discrimination, as well as by reducing depression, anxiety, and stress levels. (reference studies: [[1]](https://www.ccmhrsb.org/stop-the-judgement), [[2]](https://www.mentalhelp.net/depression/judgmental-thinking-and-anxiety/), [[3]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3532328/))
+
+## Website Functionality
+
+* Users are able to visit the website and anonymously post journal entries.
+* Users are able to visit the website and anonymously post journal entries.
+* Users can write up to 350 characters per journal entry.
+* Users are able to choose gifs from [giphy](https://developers.giphy.com/branch/master/docs/api/#quick-start-guide) in their posts and comments
+    * they are able to choose between four gifs per post or comment.
+* Users are able to view other peoples' entries.
+* Users are able to react to other peoples’ entries with an emoji. (!!!!!!!!!!)
+    * Users have three emojis to choose from (!!!!!!!!!!)
+* Users are able to comment on other people’s entries.
+
 
 -----
 
