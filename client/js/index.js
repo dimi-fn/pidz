@@ -472,10 +472,9 @@ function addGiphyToNewJournal (searchTerm)
  
         for( let i = 0; i < NR_GIF; i++)
         {
-            targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=jrnlImg${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
+            targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=jImg${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
         }
 
-        let type = "journal";
         addGiphySelectPictureJournal(content,targetDiv);
     })
 
