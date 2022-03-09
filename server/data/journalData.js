@@ -9,21 +9,21 @@ let journals =
 
         id: 1,
         content: 'Test content',
-        reactions: '',
+        reactions: [0,0,0],
         giphy: '',
         comments: 'test comment 1'
     },
     {
         id: 2,
         content: 'Test 2',
-        reactions: '',
+        reactions: [2,3,1],
         giphy: '',
         comments: 'test comment 2'
     },
     {
         id: 3,
         content: 'Test 3',
-        reactions: '',
+        reactions: [5,4,6],
         giphy: '',
         comments: 'test comment 3'
     },
