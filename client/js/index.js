@@ -417,7 +417,7 @@ function addGiphytoComment(journalId, searchTerm)
     .then(response => response.json())
     .then( content => {
  
-        if(document.getElementById("cimg0"))
+        if(document.getElementById("cImg0"))
         {
             alert("already selecting a giphy - commenting on a different journal?")
         }
@@ -427,7 +427,7 @@ function addGiphytoComment(journalId, searchTerm)
             for( let i = 0; i < NR_GIF; i++)
             {
 
-                targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=img${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
+                targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=cImg${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
             }
 
             addGiphySelectPictureComment(content,targetDiv);
