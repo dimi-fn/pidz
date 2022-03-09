@@ -30,13 +30,16 @@ class Comment {
         }        
     }
 
-    // finds comment based on journalId
-    static findCommentByJournalId(journalId){
+     // finds comment(s) based on journalId | (one journalId might appear in many commentIds, i.e. relationship 1-to-many)
+     static findCommentsByJournalId(journalId){
         this.loadComments();
         try{
-            const commentArrJourn = commentData.filter((comments)=> comments.journalId ===journalId)[0];
-            const commentByJournal = new Comment(commentArrJourn.id, commentArrJourn.journalId, commentArrJourn.content, commentArrJourn.reactions, commentArrJourn.giphy);
-            return commentByJournal;
+            const commentsOfJournalId = commentData.filter(comments => comments.journalId == journalId);
+            let arrayOfComments = [];
+            for (let obj of commentsOfJournalId){
+                arrayOfComments.push(obj)
+            }
+            return arrayOfComments;
         } catch (error) {
             throw new Error("That journal id doesn't have any comments!");
         }        

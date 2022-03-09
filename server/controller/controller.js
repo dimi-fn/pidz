@@ -75,6 +75,7 @@ router.patch('/journal/update/:id', (req,res) =>
 
 });
 
+// Delete journal based on id
 router.delete('/journal/:id', (req, res)=> {
     const journalId = parseInt(req.params.id);
     const journalToDestroy = Journal.findById(journalId);
@@ -93,6 +94,32 @@ router.get('/allComments', (req,res) =>
     res.json(theCommentData);
 });
 
+
+// returns object of comment based on comment's id
+router.get('/comment/:id', (req,res)=> {
+    try {
+        const commentId = parseInt(req.params.id);
+        const selectedCommentlId = Comment.findCommentById(commentId);
+        res.send(selectedCommentlId);
+    } catch (error) {
+        console.log(error);
+        res.status(404).send(error); 
+    }
+});
+
+// returns array of object(s) of comment(s) based on journal's id
+// journalId - comments --> relationship one-to-many
+router.get('/comments/journal/:id', (req,res)=> {
+    try {
+        const commentId = parseInt(req.params.id);
+        const selectedCommentlId = Comment.findCommentsByJournalId(commentId);
+        res.send(selectedCommentlId);
+    } catch (error) {
+        console.log(error);
+        res.status(404).send(error); 
+    }
+});
+
 router.post('/newComment', (req,res) =>
 {
     const data = req.body;
@@ -109,19 +136,6 @@ router.post('/newComment', (req,res) =>
         res.status(400).send()
     }
 });
-
-// gets comment (array of object type) based on journal's id the comment belongs to
-router.get('/comment/byJournalId/:journalId', (req,res)=> {
-    try {
-        const journalId = parseInt(req.params.journalId);
-        const selectedCommentId = Comment.findCommentByJournalId(journalId);
-        res.json(selectedCommentId);
-    } catch (error) {
-        console.log(error);
-        res.status(404).send(error); 
-    }
-});
-
 
 router.patch('/comment/update/:id', (req,res) =>
 {
