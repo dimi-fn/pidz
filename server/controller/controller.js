@@ -75,14 +75,15 @@ router.patch('/journal/update/:id', (req,res) =>
 
 });
 
-// Delete journal based on id
-router.delete('/journal/:id', (req, res)=> {
-    const journalId = parseInt(req.params.id);
-    const journalToDestroy = Journal.findById(journalId);
-    journalToDestroy.destroy();
-    res.status(204).send();
+// no need since no log-in system
+// // Delete journal based on id
+// router.delete('/journal/:id', (req, res)=> {
+//     const journalId = parseInt(req.params.id);
+//     const journalToDestroy = Journal.findById(journalId);
+//     journalToDestroy.destroy();
+//     res.status(204).send();
     
-})
+// })
 
 /***************************** Comments **********************************************/
 // returns all comments (array of objects)
@@ -137,6 +138,7 @@ router.post('/newComment', (req,res) =>
     }
 });
 
+//Update a comment with new reaction array update 
 router.patch('/comment/update/:id', (req,res) =>
 {
     const commentId= parseInt(req.params.id);
