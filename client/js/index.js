@@ -62,9 +62,6 @@ async function showAllJournals()
     let journalData = await getJournals();
     let commentData = await getComments();
 
-    console.log(`We have ${journalData.length} journals and ${commentData.length} comments`);
-
-
     //Sort our journals and comments in descending order by id
     journalData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
     commentData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
@@ -146,12 +143,9 @@ async function showAllJournals()
         //Then loop through the comments
         commentData.forEach((cmt) =>
         {  
-            console.log(`comparing comment ${cmt.id} with journal id ${cmt.journalId} against journal ${jrnl.id}`);
-
             //and if the current comment.jounralId === journal.id, add it on beneath the current journal
             if (parseInt(cmt.journalId) === parseInt(jrnl.id))
             {
-                console.log("Found journal for comment " + cmt.id + " jID was " + jrnl.id + " Comment wanted " + cmt.journalId);
                 //create a new comment div
                 let cmtDiv = document.createElement("div");
                 cmtDiv.setAttribute("id",cmt.id+"div");
@@ -184,10 +178,6 @@ async function showAllJournals()
 
                 //Add them onto our journal section below their respective journal.
                 document.getElementById("displayJournalsSection").appendChild(cmtDiv);
-            }
-            else
-            {
-                console.log("couldn't find journal for comment " + cmt.id + " journal was " +cmt.journalId);
             }
         });
 
