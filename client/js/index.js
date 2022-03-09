@@ -1,3 +1,4 @@
+showAllJournals();
 addEventHandlers();
 
 function addEventHandlers()
@@ -107,8 +108,8 @@ async function showAllJournals()
 
         //Create text input box for adding comments
         let journalCommentInput = document.createElement("input");
-        journalCommentInput.type = "text";
         journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
+        journalCommentInput.type = "text";
 
         //create button to submit comment
         let journalCommentInputSubmit = document.createElement("input");
@@ -116,6 +117,11 @@ async function showAllJournals()
         journalCommentInputSubmit.type = "submit";
         journalCommentInputSubmit.value = "Submit Comment";
         journalCommentInputSubmit.name = jrnl.id;
+
+        //create giphy search bar for adding giphy to comment
+        let journalCommentGiphySearch = document.createElement("input");
+        journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch")
+        journalCommentGiphySearch.type = "text";
 
         //create giphy button for adding giphy to comment
         let journalCommentGiphyBtn = document.createElement("input");
@@ -340,10 +346,10 @@ const NR_GIF = 4;
 document.addEventListener("DOMContentLoaded", giftest)
 // Also add a prevent emepty 
 function giftest() {
-    document.getElementById("btnsearch").addEventListener("click", ev => {
+    document.getElementById("giphybtnsearch").addEventListener("click", ev => {
         ev.preventDefault();
         let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
-        let str = document.getElementById("search").value.replace(/\s+/g, '')
+        let str = document.getElementById("giphytextsearch").value.replace(/\s+/g, '')
         url = url.concat(str.trim());
         console.log(url)
         fetch(url)
