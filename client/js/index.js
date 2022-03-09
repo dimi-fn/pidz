@@ -36,7 +36,29 @@ function buttonHandler (submitEvent)
     // if choice === commentGiphyBtn // start add giphy process
     else if(choice === 'commentGiphyBtn')
     {
-        addGiphytoComment();
+
+        let targetName = submitEvent.target.name;  
+        let journalId = ""+targetName;
+        journalId = journalId.replace("commentGiphyBtn","");
+
+        try
+        {
+            let searchBar = document.getElementById(journalId+"cmtGiphySearch");
+            let searchTerm = searchBar.value;
+
+            if(searchTerm === "" || !searchTerm)
+            {
+                alert("Invalid search term - did you add anything in?");
+            }
+            else
+            {
+                addGiphytoComment(journalId,searchTerm);
+            }
+        }
+        catch
+        {
+            alert("Couldn't get giphy search bar input");
+        }
     }
     // if choice === submitJournalComment // Call addCommentToJournal
     else if(choice === 'submitJournalComment')
@@ -128,10 +150,18 @@ async function showAllJournals()
         journalCommentGiphyBtn.type = "submit";
         journalCommentGiphyBtn.setAttribute("id","commentGiphyBtn");
         journalCommentGiphyBtn.value = "Select Giphy";
+        journalCommentGiphyBtn.name = jrnl.id+"commentGiphyBtn";
+
+        //create giphy preview div
+        let journalCommentGiphyPreview = document.createElement("div");
+        journalCommentGiphyPreview.setAttribute("id",jrnl.id+"cmtGiphyPreview");
+        journalCommentGiphyPreview.classList.add("cmtGiphyPreview");
 
         //Put the comment input form together
         journalCommentForm.appendChild(journalCommentInput);
+        journalCommentForm.appendChild(journalCommentGiphySearch);
         journalCommentForm.appendChild(journalCommentGiphyBtn);
+        journalCommentForm.appendChild(journalCommentGiphyPreview);
         journalCommentForm.appendChild(journalCommentInputSubmit);
 
 
@@ -170,7 +200,7 @@ async function showAllJournals()
                 //create a p to store comment giphy
                 let cmtGiphyP = document.createElement("p");
                 cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
-                cmtGiphyP.innerHTML = cmt.giphy;
+                cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`
 
                 //create a p to store comment reactions
                 let cmtReactionP = document.createElement("p");
@@ -262,6 +292,17 @@ function addCommentToJournal(jrnlid)
     let commentInput = document.getElementById(jrnlid+"cmtInput");
     // get the input text
     let inputContent = ""+commentInput.value;
+    //Get the giphyUrl
+    let giphyUrl = "";
+    try{
+        giphyUrl = document.getElementById("giphyImage").src;
+        console.log("giphy URL being saved as: " +giphyUrl)
+    }
+    catch (err)
+    {
+        console.log("giphy url blank - may be error: " +err)
+    }
+    
 
     //If characters greater than 350 (0 counts).. reject
     if(inputContent.length > 349)
@@ -288,7 +329,7 @@ function addCommentToJournal(jrnlid)
                 "content" : inputContent,
                 "reactions" : [0,0,0],
                 "journalId" : jrnlid,
-                "giphy" : ""
+                "giphy" : giphyUrl
             })
         })
         .then(showAllJournals())
@@ -328,11 +369,58 @@ function updateCommentReactions(cId,reaction)
 
 
 
+function addGiphytoComment(journalId, searchTerm)
+{
+    let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
+    let targetDiv
 
-function addGiphytoComment()
+    str= searchTerm.replace(" ", "")
+    url = url.concat(str.trim())
+    fetch(url)
+    .then(response => response.json())
+    .then( content => {
+ 
+        for( let i = 0; i < NR_GIF; i++)
+        {
+            // let img = document.createElement('img');
+            // img.setAttribute("id","img"+i)
+            // img.src = content.data[i].images.downsized.url;
+
+            targetDiv = document.getElementById(journalId+"cmtGiphyPreview");
+            targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=img${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
+        }
+
+        addGiphySelectPicture(journalId, content,targetDiv);
+    })
+}
+
+
+function addGiphySelectPicture(journalId, content, targetDiv)
 {
 
+    document.getElementById("img0").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[0].images.downsized.url}" width=22.5% > ` ;
+        
+    })
+    document.getElementById("img1").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[1].images.downsized.url}" width=22.5% > ` ;
+        
+    })
+    document.getElementById("img2").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[2].images.downsized.url}" width=22.5% > ` ;
+        
+    })
+    document.getElementById("img3").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[3].images.downsized.url}" width=22.5% > ` ;
+        
+    })
 }
+
+
+
+
+
+
 
 // ************* GIPHY CODE BELOW ************* //
 
@@ -357,6 +445,7 @@ function giftest() {
         .then(content => {
             console.log(content.data)
             console.log('META', content.meta)
+
             for (let i = 0; i < NR_GIF; i++) {
                 let figure = document.createElement('figure');
                 let img = document.createElement('img');

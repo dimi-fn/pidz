@@ -5,5 +5,10 @@
 
 .comment
 {
-     border-style: dotted;
+    border-style: dotted;
+}
+
+.commentGiphyPreview
+{
+    display:flex;
 }
