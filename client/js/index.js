@@ -67,6 +67,20 @@ function buttonHandler (submitEvent)
         console.log("Taget Journal: " + targetJournal)
         addCommentToJournal(targetJournal);
     }
+    else if(choice === 'giphybtnsearch')
+    {
+        let searchBar = document.getElementById("giphytextsearch");
+        let searchTerm = searchBar.value;
+
+        if(searchTerm === "" || !searchTerm)
+        {
+            alert("Invalid search term - did you add anything in the search box?");
+        }
+        else
+        {
+            addGiphyToNewJournal(searchTerm);
+        }
+    }
     //If choice is none of these // throw debug error alert
     else
     {
@@ -109,8 +123,9 @@ async function showAllJournals()
         journalContentP.innerText = jrnl.content;
         
         //Create a P element to display giphy
-        let journalGiphyP = document.createElement("p");
+        let journalGiphyP = document.createElement("div");
         journalGiphyP.setAttribute("id",jrnl.id+"giphyp");
+        journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`
 
         //create a P element to display reactions
         let journalReactionP = document.createElement("p");
@@ -266,23 +281,45 @@ function sumbitJournal()
 {
     //get text input into the box
     let contentInput = document.getElementById("contentInputBox").value;
+    let giphyUrl = "";
 
-    //POST the journal
-    fetch("http://localhost:3000/newJournal", 
+    if(contentInput.length > 349)
     {
-        method: "POST",
-        headers: { 'Content-Type' : 'application/Json'},
-        body:   JSON.stringify({
-            //details to send - id is irrelevant, our backend resolves.
-            "id": 99999,
-            "content": contentInput,
-            "reactions" : [0,0,0],
-            "giphy": ""
+        alert("Too many characters for new journal - max is 350.")
+    }
+    else if(contentInput === "" || !contentInput)
+    {
+        alert("Invalid input for new journal - is the input box empty?")
+    }
+    else
+    {
+        try{
+            giphyUrl = document.getElementById("jrnlGiphyImage").src;
+        }
+        catch (err)
+        {
+            console.log("giphy url blank - may be error: " +err)
+        }
+    
+        //POST the journal
+        fetch("http://localhost:3000/newJournal", 
+        {
+            method: "POST",
+            headers: { 'Content-Type' : 'application/Json'},
+            body:   JSON.stringify({
+                //details to send - id is irrelevant, our backend resolves.
+                "id": 99999,
+                "content": contentInput,
+                "reactions" : [0,0,0],
+                "giphy": giphyUrl
+            })
         })
-    })
-    .then(showAllJournals())
-    //Throw an error if it didn't work.
-    .catch ((error) => alert ("Couldn't post, reason: " +error));
+        .then(showAllJournals())
+        //Throw an error if it didn't work.
+        .catch ((error) => alert ("Couldn't post, reason: " +error));
+
+    }  
+    
 };
 
 function addCommentToJournal(jrnlid)
@@ -295,8 +332,7 @@ function addCommentToJournal(jrnlid)
     //Get the giphyUrl
     let giphyUrl = "";
     try{
-        giphyUrl = document.getElementById("giphyImage").src;
-        console.log("giphy URL being saved as: " +giphyUrl)
+        giphyUrl = document.getElementById("cmtGiphyImage").src;
     }
     catch (err)
     {
@@ -372,8 +408,62 @@ function updateCommentReactions(cId,reaction)
 function addGiphytoComment(journalId, searchTerm)
 {
     let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
-    let targetDiv
+    let targetDiv = document.getElementById(journalId+"cmtGiphyPreview");
+    targetDiv.innerHTML = "";
 
+    str= searchTerm.replace(" ", "")
+    url = url.concat(str.trim())
+    fetch(url)
+    .then(response => response.json())
+    .then( content => {
+ 
+        if(document.getElementById("cimg0"))
+        {
+            alert("already selecting a giphy - commenting on a different journal?")
+        }
+        else
+        {
+
+            for( let i = 0; i < NR_GIF; i++)
+            {
+
+                targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=img${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
+            }
+
+            addGiphySelectPictureComment(content,targetDiv);
+        }   
+    })
+}
+
+
+function addGiphySelectPictureComment(content, targetDiv)
+{
+        document.getElementById("cImg0").addEventListener('click', resp => {
+            targetDiv.innerHTML =  ` <img id=cmtGiphyImage src = "${content.data[0].images.downsized.url}" width=22.5% > ` ;
+            
+        })
+        document.getElementById("cImg1").addEventListener('click', resp => {
+            targetDiv.innerHTML =  ` <img id=cmtGiphyImage src = "${content.data[1].images.downsized.url}" width=22.5% > ` ;
+            
+        })
+        document.getElementById("cImg2").addEventListener('click', resp => {
+            targetDiv.innerHTML =  ` <img id=cmtGiphyImage src = "${content.data[2].images.downsized.url}" width=22.5% > ` ;
+            
+        })
+        document.getElementById("cImg3").addEventListener('click', resp => {
+            targetDiv.innerHTML =  ` <img id=cmtGiphyImage src = "${content.data[3].images.downsized.url}" width=22.5% > ` ;
+            
+        })
+}
+
+
+function addGiphyToNewJournal (searchTerm)
+{
+
+    let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
+    let targetDiv = document.getElementById("newJournalGiphyPreview");
+    targetDiv.innerHTML = "";
+    
     str= searchTerm.replace(" ", "")
     url = url.concat(str.trim())
     fetch(url)
@@ -382,40 +472,35 @@ function addGiphytoComment(journalId, searchTerm)
  
         for( let i = 0; i < NR_GIF; i++)
         {
-            // let img = document.createElement('img');
-            // img.setAttribute("id","img"+i)
-            // img.src = content.data[i].images.downsized.url;
-
-            targetDiv = document.getElementById(journalId+"cmtGiphyPreview");
-            targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=img${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
+            targetDiv.innerHTML = targetDiv.innerHTML + ` <img id=jrnlImg${i} src = "${content.data[i].images.downsized.url}" width=22.5% > ` ;
         }
 
-        addGiphySelectPicture(journalId, content,targetDiv);
+        let type = "journal";
+        addGiphySelectPictureJournal(content,targetDiv);
     })
+
 }
 
-
-function addGiphySelectPicture(journalId, content, targetDiv)
+function addGiphySelectPictureJournal(content, targetDiv)
 {
 
-    document.getElementById("img0").addEventListener('click', resp => {
-        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[0].images.downsized.url}" width=22.5% > ` ;
+    document.getElementById("jImg0").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=jrnlGiphyImage src = "${content.data[0].images.downsized.url}" width=22.5% > ` ;
         
     })
-    document.getElementById("img1").addEventListener('click', resp => {
-        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[1].images.downsized.url}" width=22.5% > ` ;
+    document.getElementById("jImg1").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=jrnlGiphyImage src = "${content.data[1].images.downsized.url}" width=22.5% > ` ;
         
     })
-    document.getElementById("img2").addEventListener('click', resp => {
-        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[2].images.downsized.url}" width=22.5% > ` ;
+    document.getElementById("jImg2").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=jrnlGiphyImage src = "${content.data[2].images.downsized.url}" width=22.5% > ` ;
         
     })
-    document.getElementById("img3").addEventListener('click', resp => {
-        targetDiv.innerHTML =  ` <img id=giphyImage src = "${content.data[3].images.downsized.url}" width=22.5% > ` ;
+    document.getElementById("jImg3").addEventListener('click', resp => {
+        targetDiv.innerHTML =  ` <img id=jrnlGiphyImage src = "${content.data[3].images.downsized.url}" width=22.5% > ` ;
         
     })
 }
-
 
 
 
@@ -431,67 +516,67 @@ function addGiphySelectPicture(journalId, content, targetDiv)
 let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
 const NR_GIF = 4;
 
-document.addEventListener("DOMContentLoaded", giftest)
-// Also add a prevent emepty 
-function giftest() {
-    document.getElementById("giphybtnsearch").addEventListener("click", ev => {
-        ev.preventDefault();
-        let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
-        let str = document.getElementById("giphytextsearch").value.replace(/\s+/g, '')
-        url = url.concat(str.trim());
-        console.log(url)
-        fetch(url)
-        .then(response => response.json()) // json object
-        .then(content => {
-            console.log(content.data)
-            console.log('META', content.meta)
+// document.addEventListener("DOMContentLoaded", giftest)
+// // Also add a prevent emepty 
+// function giftest() {
+//     document.getElementById("giphybtnsearch").addEventListener("click", ev => {
+//         ev.preventDefault();
+//         let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
+//         let str = document.getElementById("giphytextsearch").value.replace(/\s+/g, '')
+//         url = url.concat(str.trim());
+//         console.log(url)
+//         fetch(url)
+//         .then(response => response.json()) // json object
+//         .then(content => {
+//             console.log(content.data)
+//             console.log('META', content.meta)
 
-            for (let i = 0; i < NR_GIF; i++) {
-                let figure = document.createElement('figure');
-                let img = document.createElement('img');
-                img.src = content.data[i].images.downsized.url;
-                img.alt = content.data[i].title; 
-                figure.appendChild(img);
-                let out = document.querySelector("#image" + i)
-                out.innerHTML="";
-                out.insertAdjacentElement('afterbegin', figure)
-            }
+//             for (let i = 0; i < NR_GIF; i++) {
+//                 let figure = document.createElement('figure');
+//                 let img = document.createElement('img');
+//                 img.src = content.data[i].images.downsized.url;
+//                 img.alt = content.data[i].title; 
+//                 figure.appendChild(img);
+//                 let out = document.querySelector("#image" + i)
+//                 out.innerHTML="";
+//                 out.insertAdjacentElement('afterbegin', figure)
+//             }
 
-            picture_selection()
-        })
-        .catch(err =>{
-            console.error(err) // should handler error
-        })
-    })
-}
+//             picture_selection()
+//         })
+//         .catch(err =>{
+//             console.error(err) // should handler error
+//         })
+//     })
+// }
 
-function picture_selection() {
-    let first = document.getElementById("image0")
-    let second = document.getElementById("image1")
-    let third = document.getElementById("image2")
-    let fourth = document.getElementById("image3")
-    document.getElementById("image0").addEventListener('click', resp => {
-        resp.preventDefault()
-        second.innerHTML = "";
-        third.innerHTML = "";
-        fourth.innerHTML = "";
-    })
-    document.getElementById("image1").addEventListener('click', resp => {
-        resp.preventDefault() 
-        first.innerHTML = "";
-        third.innerHTML = "";
-        fourth.innerHTML = "";
-    })
-    document.getElementById("image2").addEventListener('click', resp => {
-        resp.preventDefault()
-        first.innerHTML = "";
-        second.innerHTML = "";
-        fourth.innerHTML = "";
-    })
-    document.getElementById("image3").addEventListener('click', resp => {
-        resp.preventDefault()
-        first.innerHTML = "";
-        second.innerHTML = "";
-        third.innerHTML = "";
-    })
-}
+// function picture_selection() {
+//     let first = document.getElementById("image0")
+//     let second = document.getElementById("image1")
+//     let third = document.getElementById("image2")
+//     let fourth = document.getElementById("image3")
+//     document.getElementById("image0").addEventListener('click', resp => {
+//         resp.preventDefault()
+//         second.innerHTML = "";
+//         third.innerHTML = "";
+//         fourth.innerHTML = "";
+//     })
+//     document.getElementById("image1").addEventListener('click', resp => {
+//         resp.preventDefault() 
+//         first.innerHTML = "";
+//         third.innerHTML = "";
+//         fourth.innerHTML = "";
+//     })
+//     document.getElementById("image2").addEventListener('click', resp => {
+//         resp.preventDefault()
+//         first.innerHTML = "";
+//         second.innerHTML = "";
+//         fourth.innerHTML = "";
+//     })
+//     document.getElementById("image3").addEventListener('click', resp => {
+//         resp.preventDefault()
+//         first.innerHTML = "";
+//         second.innerHTML = "";
+//         third.innerHTML = "";
+//     })
+// }
