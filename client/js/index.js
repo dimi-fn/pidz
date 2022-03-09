@@ -237,6 +237,10 @@ async function showAllJournals()
 }
 
 
+
+//*********** GET CODE BELOW *******************/*/
+
+
 //Fetches all journals - MAKE SURE TO RUN FROM ASYNC function and use AWAIT keyword when calling
 function getJournals ()
 {
@@ -275,6 +279,13 @@ function getCommentsByJournalID(jId)
         })
         .catch((error) => alert("Couldn't get comments, reason: " +error));
 }
+
+
+
+// ******************  POST CODE BELOW *************** //
+
+
+
 
 //Gets content entered into contentInputBox, then posts the new journal
 function sumbitJournal()
@@ -375,6 +386,7 @@ function addCommentToJournal(jrnlid)
 
 }
 
+// ************** UPDATE CODE BELOW ******** //
 
 
 function updateJournalReactions(jId,reaction)
@@ -403,7 +415,11 @@ function updateCommentReactions(cId,reaction)
     });
 }
 
+// ************* GIPHY CODE BELOW ************* //
 
+
+let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
+const NR_GIF = 4;
 
 function addGiphytoComment(journalId, searchTerm)
 {
@@ -500,82 +516,3 @@ function addGiphySelectPictureJournal(content, targetDiv)
         
     })
 }
-
-
-
-
-
-
-// ************* GIPHY CODE BELOW ************* //
-
-// add in a way to select multiple gifs
-
-// add in a way to let the user to choose from multiple gifs 
-
-let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
-const NR_GIF = 4;
-
-// document.addEventListener("DOMContentLoaded", giftest)
-// // Also add a prevent emepty 
-// function giftest() {
-//     document.getElementById("giphybtnsearch").addEventListener("click", ev => {
-//         ev.preventDefault();
-//         let url = `https://api.giphy.com/v1/gifs/search?api_key=${apikey}&limit=16&q=`;
-//         let str = document.getElementById("giphytextsearch").value.replace(/\s+/g, '')
-//         url = url.concat(str.trim());
-//         console.log(url)
-//         fetch(url)
-//         .then(response => response.json()) // json object
-//         .then(content => {
-//             console.log(content.data)
-//             console.log('META', content.meta)
-
-//             for (let i = 0; i < NR_GIF; i++) {
-//                 let figure = document.createElement('figure');
-//                 let img = document.createElement('img');
-//                 img.src = content.data[i].images.downsized.url;
-//                 img.alt = content.data[i].title; 
-//                 figure.appendChild(img);
-//                 let out = document.querySelector("#image" + i)
-//                 out.innerHTML="";
-//                 out.insertAdjacentElement('afterbegin', figure)
-//             }
-
-//             picture_selection()
-//         })
-//         .catch(err =>{
-//             console.error(err) // should handler error
-//         })
-//     })
-// }
-
-// function picture_selection() {
-//     let first = document.getElementById("image0")
-//     let second = document.getElementById("image1")
-//     let third = document.getElementById("image2")
-//     let fourth = document.getElementById("image3")
-//     document.getElementById("image0").addEventListener('click', resp => {
-//         resp.preventDefault()
-//         second.innerHTML = "";
-//         third.innerHTML = "";
-//         fourth.innerHTML = "";
-//     })
-//     document.getElementById("image1").addEventListener('click', resp => {
-//         resp.preventDefault() 
-//         first.innerHTML = "";
-//         third.innerHTML = "";
-//         fourth.innerHTML = "";
-//     })
-//     document.getElementById("image2").addEventListener('click', resp => {
-//         resp.preventDefault()
-//         first.innerHTML = "";
-//         second.innerHTML = "";
-//         fourth.innerHTML = "";
-//     })
-//     document.getElementById("image3").addEventListener('click', resp => {
-//         resp.preventDefault()
-//         first.innerHTML = "";
-//         second.innerHTML = "";
-//         third.innerHTML = "";
-//     })
-// }
