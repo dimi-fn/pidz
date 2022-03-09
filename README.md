@@ -82,6 +82,9 @@ We believe that our website can help the mental health of visitors by reducing [
 
 ## Client
 
+* To run the tests: navigate to the client directory and run: `npm init -y`, `npm install jest --save-dev`
+    * then run: `npm run test` or `npm run coverage` to get the test results
+
 --------
 
 # Technologies
