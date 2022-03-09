@@ -411,7 +411,7 @@ function addGiphytoComment(journalId, searchTerm)
     let targetDiv = document.getElementById(journalId+"cmtGiphyPreview");
     targetDiv.innerHTML = "";
 
-    str= searchTerm.replace(" ", "")
+    str= searchTerm.replace(" ", "+")
     url = url.concat(str.trim())
     fetch(url)
     .then(response => response.json())
@@ -464,7 +464,7 @@ function addGiphyToNewJournal (searchTerm)
     let targetDiv = document.getElementById("newJournalGiphyPreview");
     targetDiv.innerHTML = "";
     
-    str= searchTerm.replace(" ", "")
+    str= searchTerm.replace(" ", "+")
     url = url.concat(str.trim())
     fetch(url)
     .then(response => response.json())
