@@ -88,9 +88,6 @@ class Journal {
             else
             {
                 parsedData = JSON.parse(data);
-
-                console.log("Journals loaded, data: " +parsedData);
-
                 journalData = parsedData;
             }
         })
