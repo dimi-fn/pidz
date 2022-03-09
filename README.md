@@ -94,9 +94,11 @@ We believe that our website can help the mental health of visitors by reducing [
 
 * Created an initial design of the website at wireframe.cc
 * Set up the server with a *models* and *controllers* directory, and got the server running
-* Created test scripts for testing the server
+* Created test scripts for testing the server-side
 * Set up the client side (............)
 * (..................)
+* Created test scripts for testing the client-side
+* Used 'inspect element' for catching bugs on the front-end via the developer's tool
 
 --------
 
@@ -109,3 +111,5 @@ We believe that our website can help the mental health of visitors by reducing [
 --------
 
 # Licence
+
+[MIT license](https://opensource.org/licenses/mit-license.php)
