@@ -1,15 +1,17 @@
-showAllJournals();
+addEventHandlers();
 
-// Create array of all input buttons of type submit wrapped in a form
-const button = document.querySelectorAll("form input[type ='submit']");
-
-
-// Add event listeners to each button in button array
-button.forEach( function (thisButton)
+function addEventHandlers()
 {
-    thisButton.addEventListener('click', buttonHandler);
-});
+    // Create array of all input buttons of type submit wrapped in a form
+    const button = document.querySelectorAll("form input[type ='submit']");
 
+
+    // Add event listeners to each button in button array
+    button.forEach( function (thisButton)
+    {
+        thisButton.addEventListener('click', buttonHandler);
+    });
+}
 
 //Takes clicks on buttons and handles them, calling appropriate functions depending on which button was clicked
 function buttonHandler (submitEvent) 
@@ -30,36 +32,24 @@ function buttonHandler (submitEvent)
     {
         showAllJournals();
     }
+    // if choice === commentGiphyBtn // start add giphy process
+    else if(choice === 'commentGiphyBtn')
+    {
+        addGiphytoComment();
+    }
+    // if choice === submitJournalComment // Call addCommentToJournal
+    else if(choice === 'submitJournalComment')
+    {
+        let targetJournal = submitEvent.target.name;
+        console.log("Taget Journal: " + targetJournal)
+        addCommentToJournal(targetJournal);
+    }
     //If choice is none of these // throw debug error alert
     else
     {
         alert("Don't know what clicked, target is: " +submitEvent.target.getAttribute("id"));
     }
 }
-
-//Gets content entered into contentInputBox, then posts the new journal
-function sumbitJournal()
-{
-    //get text input into the box
-    let contentInput = document.getElementById("contentInputBox").value;
-
-    //POST the journal
-    fetch("http://localhost:3000/newJournal", 
-    {
-        method: "POST",
-        headers: { 'Content-Type' : 'application/Json'},
-        body:   JSON.stringify({
-            //details to send - id is irrelevant, our backend resolves.
-            "id": 99,
-            "content": contentInput,
-            "reactions" : [0,0,0],
-            "giphy": ""
-        })
-    })
-    .then(showAllJournals())
-    //Throw an error if it didn't work.
-    .catch ((error) => alert ("Couldn't post, reason: " +error));
-};
 
 
 //Refreshes screen, displaying all Journals and comments
@@ -71,6 +61,9 @@ async function showAllJournals()
     //Create variables containing both sets of data, by calling functions which return journals and comments
     let journalData = await getJournals();
     let commentData = await getComments();
+
+    console.log(`We have ${journalData.length} journals and ${commentData.length} comments`);
+
 
     //Sort our journals and comments in descending order by id
     journalData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
@@ -105,18 +98,60 @@ async function showAllJournals()
         journalReactionP.innerHTML = jrnl.reactions;
 
 
+        //create div for adding comments
+        let journalCommentInputDiv = document.createElement("div");
+        journalCommentInputDiv.setAttribute("id",jrnl.id+"cmtdiv");
+        journalCommentInputDiv.setAttribute("class","cmtInputDiv");
+
+        //create form for adding comments
+        let journalCommentForm = document.createElement("form");
+        journalCommentForm.setAttribute("id",jrnl.id+"cmtform");
+
+
+        //Create text input box for adding comments
+        let journalCommentInput = document.createElement("input");
+        journalCommentInput.type = "text";
+        journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
+
+        //create button to submit comment
+        let journalCommentInputSubmit = document.createElement("input");
+        journalCommentInputSubmit.setAttribute("id","submitJournalComment");
+        journalCommentInputSubmit.type = "submit";
+        journalCommentInputSubmit.value = "Submit Comment";
+        journalCommentInputSubmit.name = jrnl.id;
+
+        //create giphy button for adding giphy to comment
+        let journalCommentGiphyBtn = document.createElement("input");
+        journalCommentGiphyBtn.type = "submit";
+        journalCommentGiphyBtn.setAttribute("id","commentGiphyBtn");
+        journalCommentGiphyBtn.value = "Select Giphy";
+
+        //Put the comment input form together
+        journalCommentForm.appendChild(journalCommentInput);
+        journalCommentForm.appendChild(journalCommentGiphyBtn);
+        journalCommentForm.appendChild(journalCommentInputSubmit);
+
+
         //Put them all together
-        journalDiv.appendChild(journalIDP).appendChild(journalContentP).appendChild(journalGiphyP).appendChild(journalReactionP);
+        journalDiv.appendChild(journalIDP);
+        journalDiv.appendChild(journalContentP);
+        journalDiv.appendChild(journalGiphyP);
+        journalDiv.appendChild(journalReactionP);
+        journalDiv.appendChild(journalCommentInputDiv);
+        journalDiv.appendChild(journalCommentForm);
 
         //Add them to page
-        document.getElementById("displayJournalsSection").appendChild(journalDiv);
+        document.getElementById("displayJournalsSection").appendChild(journalDiv);     
 
         //Then loop through the comments
         commentData.forEach((cmt) =>
-        {
+        {  
+            console.log(`comparing comment ${cmt.id} with journal id ${cmt.journalId} against journal ${jrnl.id}`);
+
             //and if the current comment.jounralId === journal.id, add it on beneath the current journal
-            if (cmt.journalId === jrnl.id)
+            if (parseInt(cmt.journalId) === parseInt(jrnl.id))
             {
+                console.log("Found journal for comment " + cmt.id + " jID was " + jrnl.id + " Comment wanted " + cmt.journalId);
                 //create a new comment div
                 let cmtDiv = document.createElement("div");
                 cmtDiv.setAttribute("id",cmt.id+"div");
@@ -150,7 +185,13 @@ async function showAllJournals()
                 //Add them onto our journal section below their respective journal.
                 document.getElementById("displayJournalsSection").appendChild(cmtDiv);
             }
+            else
+            {
+                console.log("couldn't find journal for comment " + cmt.id + " journal was " +cmt.journalId);
+            }
         });
+
+        addEventHandlers();
     });
 }
 
@@ -194,6 +235,75 @@ function getCommentsByJournalID(jId)
         .catch((error) => alert("Couldn't get comments, reason: " +error));
 }
 
+//Gets content entered into contentInputBox, then posts the new journal
+function sumbitJournal()
+{
+    //get text input into the box
+    let contentInput = document.getElementById("contentInputBox").value;
+
+    //POST the journal
+    fetch("http://localhost:3000/newJournal", 
+    {
+        method: "POST",
+        headers: { 'Content-Type' : 'application/Json'},
+        body:   JSON.stringify({
+            //details to send - id is irrelevant, our backend resolves.
+            "id": 99999,
+            "content": contentInput,
+            "reactions" : [0,0,0],
+            "giphy": ""
+        })
+    })
+    .then(showAllJournals())
+    //Throw an error if it didn't work.
+    .catch ((error) => alert ("Couldn't post, reason: " +error));
+};
+
+function addCommentToJournal(jrnlid)
+{
+    console.log("Getting input for "+ jrnlid+"cmtInput");
+    // get comment input element relating to the journal
+    let commentInput = document.getElementById(jrnlid+"cmtInput");
+    // get the input text
+    let inputContent = ""+commentInput.value;
+
+    //If characters greater than 350 (0 counts).. reject
+    if(inputContent.length > 349)
+    {
+        alert("Maximum character length is 350.  Please shorten your comment");
+    }
+    //If input box is empty... reject
+    else if (inputContent.length === 0)
+    {
+        alert("No comment input.  Please input a comment.");
+    }
+    // Else post comment
+    else
+    {
+
+         //POST the Comment
+        fetch("http://localhost:3000/newComment", 
+        {
+            method: "POST",
+            headers: { 'Content-Type' : 'application/Json'},
+            body:   JSON.stringify({
+            //details to send - id is irrelevant, our backend resolves.
+                "id" : 99999,
+                "content" : inputContent,
+                "reactions" : [0,0,0],
+                "journalId" : jrnlid,
+                "giphy" : ""
+            })
+        })
+        .then(showAllJournals())
+        .catch((error) => alert ("Couldn't post comment, reason: " + error));
+    };
+
+
+}
+
+
+
 function updateJournalReactions(jId,reaction)
 {
     fetch("http://localhost:3000/journal/update/"+jId,
@@ -221,6 +331,12 @@ function updateCommentReactions(cId,reaction)
 }
 
 
+
+
+function addGiphytoComment()
+{
+
+}
 
 // ************* GIPHY CODE BELOW ************* //
 
