@@ -1,19 +1,101 @@
-.journal
+/* GENERAL JOURNAL APPEARANCE CLASSES*/
+.journaldiv
 {
     border-style: solid;
 }
 
-.comment
+.journalId
 {
-    border-style: dotted;
+    
 }
 
-.commentGiphyPreview
+.journalContent
 {
-    display:flex;
+
+}
+
+.journalGiphy
+{
+
+}
+
+.journalReactions
+{
+
 }
 
 .journalGiphyPreview
 {
     display:flex;
 }
+
+.ViewAllCommentsBtn
+{
+
+}
+
+/* JOURNAL COMMENT INPUT DIV CLASSES */
+.JournalCommentInputDiv
+{
+
+}
+
+.journalCommentForm
+{
+
+}
+
+.journalCommentInputSubmitBtn
+{
+
+}
+
+.JournalCommentGiphySearchBar
+{
+
+}
+
+.journalCommentGiphySearchBtn
+{
+
+}
+
+.journalCmtGiphyPreview
+{
+    display:flex;
+}
+
+
+
+
+
+/* COMMENT DISPLAY CLASSES */
+
+.commentdiv
+{
+    border-style: dotted;
+}
+
+.JournalCommentInputDiv
+{
+
+}
+
+.commentContent
+{
+
+}
+
+.commentGiphyP
+{
+
+}
+
+.commentReactions
+{
+    
+}
+
+
+
+
