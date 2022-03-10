@@ -7,10 +7,12 @@ const NR_GIF = 4;
 //number comments to show under each journal on frontpage
 const NR_CMTS = 4;
 
-
+//ON PAGE LOAD
 refreshFrontPage();
 addEventHandlers();
 
+
+//PROCEDURALLY GENERATED EVENT HANDLING CODE
 function addEventHandlers()
 {
     // Create array of all input buttons of type submit wrapped in a form
@@ -24,6 +26,8 @@ function addEventHandlers()
     });
 }
 
+//*************** PATHING CODE FOR PROCEDURALLY GENERATED EVENT HANDLERS ***********//
+
 //Takes clicks on buttons and handles them, calling appropriate functions depending on which button was clicked
 function buttonHandler (submitEvent) 
 {
@@ -33,13 +37,13 @@ function buttonHandler (submitEvent)
     //Get the id of the button that was clicked
     let choice = submitEvent.target.getAttribute("id");
 
-    //If choice === testSubmitJournal submit the new journal
-    if (choice === 'testSubmitJournal')
+    //If choice === SubmitJournal submit the new journal
+    if (choice === 'SubmitJournal')
     {
         sumbitJournal();
     }
     // If choice === refreshJournals // call showAllJournals 
-    else if (choice === 'refreshJournals')
+    else if (choice === 'refreshFrontPage')
     {
         refreshFrontPage();
     }
@@ -98,6 +102,8 @@ function buttonHandler (submitEvent)
     }
 }
 
+//**************** DISPLAY CODE ***********************************/
+
 //Gets all data and then calls display data to show all on front page
 async function refreshFrontPage ()
 {
@@ -153,6 +159,7 @@ function displayData(journalData, commentData, journalTargetted)
     document.getElementById("displayJournalsSection").innerHTML="";
     //Create variable for comment added tracking.
     let commentsAdded = 0;
+    let viewAllAdded = false;
 
 
 
@@ -165,6 +172,8 @@ function displayData(journalData, commentData, journalTargetted)
     {
         //reset comments added variable
         commentsAdded = 0;
+
+        //******  JOURNAL ********/
 
         //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
         let journalDiv = document.createElement("div");
@@ -196,9 +205,12 @@ function displayData(journalData, commentData, journalTargetted)
         journalReactionP.innerHTML = jrnl.reactions;
         journalReactionP.classList.add("JournalReactions");
 
+
+        //***** JOURNAL - COMMENT FORM ******/
+
         //create div for adding comments
         let journalCommentInputDiv = document.createElement("div");
-        journalCommentInputDiv.setAttribute("id",jrnl.id+"cmtdiv");
+        journalCommentInputDiv.setAttribute("id",jrnl.id+"cmtInputDiv");
         journalCommentInputDiv.classList.add("JournalCommentInputDiv");
 
         //create form for adding comments
@@ -206,20 +218,11 @@ function displayData(journalData, commentData, journalTargetted)
         journalCommentForm.setAttribute("id",jrnl.id+"cmtform");
         journalCommentForm.classList.add("journalCommentForm")
 
-
         //Create text input box for adding comments
         let journalCommentInput = document.createElement("input");
         journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
         journalCommentInput.type = "text";
         journalCommentInput.classList.add("journalCommentInput");
-
-        //create button to submit comment
-        let journalCommentInputSubmit = document.createElement("input");
-        journalCommentInputSubmit.setAttribute("id","submitJournalComment");
-        journalCommentInputSubmit.type = "submit";
-        journalCommentInputSubmit.value = "Submit Comment";
-        journalCommentInputSubmit.name = jrnl.id;
-        journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn")
 
         //create giphy search bar for adding giphy to comment
         let journalCommentGiphySearch = document.createElement("input");
@@ -240,6 +243,17 @@ function displayData(journalData, commentData, journalTargetted)
         journalCommentGiphyPreview.setAttribute("id",jrnl.id+"cmtGiphyPreview");
         journalCommentGiphyPreview.classList.add("journalCmtGiphyPreview");
 
+        //create button to submit comment
+        let journalCommentInputSubmit = document.createElement("input");
+        journalCommentInputSubmit.setAttribute("id","submitJournalComment");
+        journalCommentInputSubmit.type = "submit";
+        journalCommentInputSubmit.value = "Submit Comment";
+        journalCommentInputSubmit.name = jrnl.id;
+        journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn")
+
+
+        //******* PUT ALL TOGETHER *******/
+
         //Put the comment input form together
         journalCommentForm.appendChild(journalCommentInput);
         journalCommentForm.appendChild(journalCommentGiphySearch);
@@ -248,16 +262,20 @@ function displayData(journalData, commentData, journalTargetted)
         journalCommentForm.appendChild(journalCommentInputSubmit);
 
 
-        //Put them all together
+        //Put the journal together
         journalDiv.appendChild(journalIDP);
         journalDiv.appendChild(journalContentP);
         journalDiv.appendChild(journalGiphyP);
         journalDiv.appendChild(journalReactionP);
         journalDiv.appendChild(journalCommentInputDiv);
+
+        //Add comment form to journal
         journalDiv.appendChild(journalCommentForm);
 
-        //Add them to page
+        //Add the completed journalDiv to displayJournalsSection
         document.getElementById("displayJournalsSection").appendChild(journalDiv);     
+
+        //********* NOW LETS SORT OUR COMMENTS *********/
 
         //Then loop through the comments
         commentData.forEach((cmt) =>
@@ -300,21 +318,25 @@ function displayData(journalData, commentData, journalTargetted)
 
 
                     //Add them all together
-                    cmtDiv.appendChild(cmtIdP).appendChild(cmtContentP).appendChild(cmtGiphyP).appendChild(cmtReactionP);
+                    cmtDiv.appendChild(cmtIdP);
+                    cmtDiv.appendChild(cmtContentP);
+                    cmtDiv.appendChild(cmtGiphyP);
+                    cmtDiv.appendChild(cmtReactionP);
 
                     //Add them onto our journal section below their respective journal.
-                    document.getElementById("displayJournalsSection").appendChild(cmtDiv);
+                    let journalTarget = document.getElementById(cmt.journalId+"div");
+                    journalTarget.appendChild(cmtDiv);
 
                     //add one to comments added
                     commentsAdded ++
                 }
             }
             //If we've displayed too many comments...
-            else if(journalTargetted === false && commentsAdded >= NR_CMTS)
+            else if(journalTargetted === false && commentsAdded >= NR_CMTS && viewAllAdded === false)
             {
                     //set target journaldiv
                     let target = document.getElementById(cmt.journalId+"div");
-                    console.log("Target div is "+ target.id );
+                    
 
                     //create a button element that contains a link to view all comments on the journal
                     let viewAllCommentsBtn = document.createElement("input");
@@ -324,15 +346,15 @@ function displayData(journalData, commentData, journalTargetted)
                     viewAllCommentsBtn.classList.add("ViewAllCommentsBtn");
                     //Add this button onto the journal div
                     target.appendChild(viewAllCommentsBtn);
+
+                    viewAllAdded= true;
                     //Add event listener to it
                     viewAllCommentsBtn.addEventListener('click', event =>
                     {
                         displayTargetJournal(cmt.journalId);
                     })
             }
-            
         });
-
         addEventHandlers();
     });
 }
@@ -341,7 +363,7 @@ function displayData(journalData, commentData, journalTargetted)
 
 
 
-//*********** GET CODE BELOW *******************/*/
+//****************************** GET CODE BELOW *******************/*/
 
 
 //Fetches all journals - MAKE SURE TO RUN FROM ASYNC function and use AWAIT keyword when calling
@@ -385,7 +407,7 @@ function getCommentsByJournalID(jId)
 
 
 
-// ******************  POST CODE BELOW *************** //
+// ******************  POST CODE BELOW ********************* //
 
 
 
@@ -489,7 +511,7 @@ function addCommentToJournal(jrnlid)
 
 }
 
-// ************** UPDATE CODE BELOW ******** //
+// ************** UPDATE CODE BELOW ********************** //
 
 
 function updateJournalReactions(jId,reaction)
@@ -518,9 +540,8 @@ function updateCommentReactions(cId,reaction)
     });
 }
 
+
 // ************* GIPHY CODE BELOW ************* //
-
-
 
 function addGiphytoComment(journalId, searchTerm)
 {
@@ -616,4 +637,6 @@ function addGiphySelectPictureJournal(content, targetDiv)
         targetDiv.innerHTML =  ` <img id=jrnlGiphyImage src = "${content.data[3].images.downsized.url}" width=22.5% > ` ;
         
     })
-}
+} 
+
+// END OF CODE
