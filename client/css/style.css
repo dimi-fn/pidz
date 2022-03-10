@@ -98,4 +98,16 @@
 
 
 
+/* VISIBILITY CLASSES */
+.hidden
+{
+    visibility: "hidden";
+}
+
+.visible
+{
+    visibility: "visible";
+}
+
+
 
