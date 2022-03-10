@@ -993,6 +993,16 @@ async function numPages()
     return Math.ceil( journalsLength/ journalsPerPage);
 }
 
+
+
+window.onscroll = function() {navBarSticky()};
+
+
+let navbar = document.getElementById("navbar");
+
+
+let sticky = navbar.offsetTop;
+
 function navBarSticky() {
     if (window.pageYOffset >= sticky) {
       navbar.classList.add("sticky")
@@ -1002,3 +1012,4 @@ function navBarSticky() {
   }
 
 // END OF CODE
+
