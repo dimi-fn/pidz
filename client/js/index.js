@@ -7,8 +7,13 @@ const NR_GIF = 4;
 //number comments to show under each journal on frontpage
 const NR_CMTS = 4;
 
+//PAGINATION Global variables -- PAGINATION CODE AT BOTTOM OF INDEX.JS
+let current_page = 1
+let journalsPerPage = 5
+
+
 //ON PAGE LOAD
-refreshFrontPage();
+refreshPage();
 addEventHandlers();
 
 
@@ -38,14 +43,14 @@ function buttonHandler (submitEvent)
     let choice = submitEvent.target.getAttribute("id");
 
     //If choice === SubmitJournal submit the new journal
-    if (choice === 'SubmitJournal')
+    if (choice === 'submitJournal')
     {
         sumbitJournal();
     }
     // If choice === refreshJournals // call showAllJournals 
     else if (choice === 'refreshFrontPage')
     {
-        refreshFrontPage();
+        changePage(1);
     }
     // if choice === commentGiphyBtn // start add giphy process
     else if(choice === 'commentGiphyBtn')
@@ -104,11 +109,10 @@ function buttonHandler (submitEvent)
 
 //**************** DISPLAY CODE ***********************************/
 
-//Gets all data and then calls display data to show all on front page
-async function refreshFrontPage ()
+//Gets all data and then calls display data to show all on front page on first load
+async function refreshPage ()
 {
-
-
+        current_page = 1;
         //Create variables containing both sets of data, by calling functions which return journals and comments
         let journalData = await getJournals();
         let commentData = await getComments();
@@ -117,6 +121,63 @@ async function refreshFrontPage ()
 
         displayData(journalData, commentData, journaTargetted);        
 }
+
+async function changePage(page)
+{
+    //Create variables containing both sets of data, by calling functions which return journals and comments
+    let journalData = await getJournals();
+    let commentData = await getComments();
+    //We're switching pages, so no targetting.
+    let journaTargetted = false;
+
+    //create our array to send back
+    let returnData = [];
+
+    //get the elements
+    let btn_next = document.getElementById("btn_next");
+    let btn_prev = document.getElementById("btn_prev");
+    let page_span = document.getElementById("page_span");
+
+    
+
+    //error handling
+    if (page < 1) page = 1;
+    if (page >numPages()) page = numPages();
+
+    //hiding/appearing buttons
+    if (page === 1) {
+        btn_prev.classList.add("hidden");
+        btn_prev.classList.remove("visible");
+    } else {
+        btn_prev.classList.add("visible");
+        btn_prev.classList.remove("hidden")
+    }
+
+    if (page === numPages()) {
+        btn_next.classList.add("hidden");
+        btn_prev.classList.remove("visible");
+    } else {
+        btn_next.classList.add("visible");
+        btn_next.classList.remove("hidden");
+    }
+
+    journalData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
+
+    //Get data to send
+    for (var i = (page-1) * journalsPerPage; i < (page * journalsPerPage) && i < journalData.length; i++)
+    
+    {
+        returnData.push(journalData[i]);
+    }
+
+    returnData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
+
+    page_span.innerHTML="Page: " + current_page + " / " + await numPages(); 
+
+    displayData(returnData, commentData, journaTargetted)
+
+}
+
 
 //gets a single journal and then calls display data to show it and all comments on front page
 async function displayTargetJournal(targetJournalId)
@@ -153,7 +214,7 @@ async function displayTargetJournal(targetJournalId)
 }
 
 //Refreshes screen, displaying all Journals and comments
-function displayData(journalData, commentData, journalTargetted)
+async function displayData(journalData, commentData, journalTargetted)
 {
     //Clear what's on screen rn.
     document.getElementById("displayJournalsSection").innerHTML="";
@@ -167,176 +228,182 @@ function displayData(journalData, commentData, journalTargetted)
     journalData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
     commentData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
 
+    let journalsAdded = 0;
+
     //Loop through our journals
     journalData.forEach((jrnl) =>
     {
-        //reset comments added variable
-        commentsAdded = 0;
+        if(journalsAdded < journalsPerPage)
+        {
+            //reset comments added variable
+            commentsAdded = 0;
 
-        //******  JOURNAL ********/
+            //******  JOURNAL ********/
 
-        //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
-        let journalDiv = document.createElement("div");
-        journalDiv.setAttribute("id",jrnl.id+"div");
-        journalDiv.classList.add("journaldiv");
+            //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
+            let journalDiv = document.createElement("div");
+            journalDiv.setAttribute("id",jrnl.id+"div");
+            journalDiv.classList.add("journaldiv");
 
-        //Create P element to display journal id
-        let journalIDP = document.createElement("p");
-        journalIDP.setAttribute("id",jrnl.id+ "idp");
-        journalIDP.innerText = "Journal id:" + jrnl.id;
-        journalIDP.classList.add("journalId")
-
-
-        //Create P element to display journal content
-        let journalContentP = document.createElement("p");
-        journalContentP.setAttribute("id",jrnl.id+"contentp");
-        journalContentP.innerText = jrnl.content;
-        journalContentP.classList.add("journalContent");
-        
-        //Create a P element to display giphy
-        let journalGiphyP = document.createElement("div");
-        journalGiphyP.setAttribute("id",jrnl.id+"giphyp");
-        journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`;
-        journalGiphyP.classList.add("journalGiphy");
-
-        //create a P element to display reactions
-        let journalReactionP = document.createElement("p");
-        journalReactionP.setAttribute("id",jrnl.id+"reactionp");
-        journalReactionP.innerHTML = jrnl.reactions;
-        journalReactionP.classList.add("JournalReactions");
+            //Create P element to display journal id
+            let journalIDP = document.createElement("p");
+            journalIDP.setAttribute("id",jrnl.id+ "idp");
+            journalIDP.innerText = "Journal id:" + jrnl.id;
+            journalIDP.classList.add("journalId")
 
 
-        //***** JOURNAL - COMMENT FORM ******/
+            //Create P element to display journal content
+            let journalContentP = document.createElement("p");
+            journalContentP.setAttribute("id",jrnl.id+"contentp");
+            journalContentP.innerText = jrnl.content;
+            journalContentP.classList.add("journalContent");
+            
+            //Create a P element to display giphy
+            let journalGiphyP = document.createElement("div");
+            journalGiphyP.setAttribute("id",jrnl.id+"giphyp");
+            journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`;
+            journalGiphyP.classList.add("journalGiphy");
 
-        //create div for adding comments
-        let journalCommentInputDiv = document.createElement("div");
-        journalCommentInputDiv.setAttribute("id",jrnl.id+"cmtInputDiv");
-        journalCommentInputDiv.classList.add("JournalCommentInputDiv");
-
-        //create form for adding comments
-        let journalCommentForm = document.createElement("form");
-        journalCommentForm.setAttribute("id",jrnl.id+"cmtform");
-        journalCommentForm.classList.add("journalCommentForm")
-
-        //Create text input box for adding comments
-        let journalCommentInput = document.createElement("input");
-        journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
-        journalCommentInput.type = "text";
-        journalCommentInput.classList.add("journalCommentInput");
-
-        //create giphy search bar for adding giphy to comment
-        let journalCommentGiphySearch = document.createElement("input");
-        journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch")
-        journalCommentGiphySearch.type = "text";
-        journalCommentGiphySearch.classList.add("JournalCommentGiphySearchBar")
-
-        //create giphy button for adding giphy to comment
-        let journalCommentGiphyBtn = document.createElement("input");
-        journalCommentGiphyBtn.type = "submit";
-        journalCommentGiphyBtn.setAttribute("id","commentGiphyBtn");
-        journalCommentGiphyBtn.value = "Select Giphy";
-        journalCommentGiphyBtn.name = jrnl.id+"commentGiphyBtn";
-        journalCommentGiphyBtn.classList.add("journalCommentGiphySearchBtn")
-
-        //create giphy preview div
-        let journalCommentGiphyPreview = document.createElement("div");
-        journalCommentGiphyPreview.setAttribute("id",jrnl.id+"cmtGiphyPreview");
-        journalCommentGiphyPreview.classList.add("journalCmtGiphyPreview");
-
-        //create button to submit comment
-        let journalCommentInputSubmit = document.createElement("input");
-        journalCommentInputSubmit.setAttribute("id","submitJournalComment");
-        journalCommentInputSubmit.type = "submit";
-        journalCommentInputSubmit.value = "Submit Comment";
-        journalCommentInputSubmit.name = jrnl.id;
-        journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn")
+            //create a P element to display reactions
+            let journalReactionP = document.createElement("p");
+            journalReactionP.setAttribute("id",jrnl.id+"reactionp");
+            journalReactionP.innerHTML = jrnl.reactions;
+            journalReactionP.classList.add("JournalReactions");
 
 
-        //******* PUT ALL TOGETHER *******/
+            //***** JOURNAL - COMMENT FORM ******/
 
-        //Put the comment input form together
-        journalCommentForm.appendChild(journalCommentInput);
-        journalCommentForm.appendChild(journalCommentGiphySearch);
-        journalCommentForm.appendChild(journalCommentGiphyBtn);
-        journalCommentForm.appendChild(journalCommentGiphyPreview);
-        journalCommentForm.appendChild(journalCommentInputSubmit);
+            //create div for adding comments
+            let journalCommentInputDiv = document.createElement("div");
+            journalCommentInputDiv.setAttribute("id",jrnl.id+"cmtInputDiv");
+            journalCommentInputDiv.classList.add("JournalCommentInputDiv");
+
+            //create form for adding comments
+            let journalCommentForm = document.createElement("form");
+            journalCommentForm.setAttribute("id",jrnl.id+"cmtform");
+            journalCommentForm.classList.add("journalCommentForm")
+
+            //Create text input box for adding comments
+            let journalCommentInput = document.createElement("input");
+            journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
+            journalCommentInput.type = "text";
+            journalCommentInput.classList.add("journalCommentInput");
+
+            //create giphy search bar for adding giphy to comment
+            let journalCommentGiphySearch = document.createElement("input");
+            journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch")
+            journalCommentGiphySearch.type = "text";
+            journalCommentGiphySearch.classList.add("JournalCommentGiphySearchBar")
+
+            //create giphy button for adding giphy to comment
+            let journalCommentGiphyBtn = document.createElement("input");
+            journalCommentGiphyBtn.type = "submit";
+            journalCommentGiphyBtn.setAttribute("id","commentGiphyBtn");
+            journalCommentGiphyBtn.value = "Select Giphy";
+            journalCommentGiphyBtn.name = jrnl.id+"commentGiphyBtn";
+            journalCommentGiphyBtn.classList.add("journalCommentGiphySearchBtn")
+
+            //create giphy preview div
+            let journalCommentGiphyPreview = document.createElement("div");
+            journalCommentGiphyPreview.setAttribute("id",jrnl.id+"cmtGiphyPreview");
+            journalCommentGiphyPreview.classList.add("journalCmtGiphyPreview");
+
+            //create button to submit comment
+            let journalCommentInputSubmit = document.createElement("input");
+            journalCommentInputSubmit.setAttribute("id","submitJournalComment");
+            journalCommentInputSubmit.type = "submit";
+            journalCommentInputSubmit.value = "Submit Comment";
+            journalCommentInputSubmit.name = jrnl.id;
+            journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn")
 
 
-        //Put the journal together
-        journalDiv.appendChild(journalIDP);
-        journalDiv.appendChild(journalContentP);
-        journalDiv.appendChild(journalGiphyP);
-        journalDiv.appendChild(journalReactionP);
-        journalDiv.appendChild(journalCommentInputDiv);
+            //******* PUT ALL TOGETHER *******/
 
-        //Add comment form to journal
-        journalDiv.appendChild(journalCommentForm);
+            //Put the comment input form together
+            journalCommentForm.appendChild(journalCommentInput);
+            journalCommentForm.appendChild(journalCommentGiphySearch);
+            journalCommentForm.appendChild(journalCommentGiphyBtn);
+            journalCommentForm.appendChild(journalCommentGiphyPreview);
+            journalCommentForm.appendChild(journalCommentInputSubmit);
 
-        //Add the completed journalDiv to displayJournalsSection
-        document.getElementById("displayJournalsSection").appendChild(journalDiv);     
 
-        //********* NOW LETS SORT OUR COMMENTS *********/
+            //Put the journal together
+            journalDiv.appendChild(journalIDP);
+            journalDiv.appendChild(journalContentP);
+            journalDiv.appendChild(journalGiphyP);
+            journalDiv.appendChild(journalReactionP);
+            journalDiv.appendChild(journalCommentInputDiv);
 
-        //Then loop through the comments
-        commentData.forEach((cmt) =>
-        {  
-            //Check commentsAdded is less than our global variable if we're not targetting a journal, or if we are just display all.
-            if(journalTargetted === true || journalTargetted === false && commentsAdded < NR_CMTS)
-            {
-                //and if the current comment.jounralId === journal.id, add it on beneath the current journal
-                if (parseInt(cmt.journalId) === parseInt(jrnl.id))
+            //Add comment form to journal
+            journalDiv.appendChild(journalCommentForm);
+
+            //Add the completed journalDiv to displayJournalsSection
+            document.getElementById("displayJournalsSection").appendChild(journalDiv);
+            
+            journalsAdded++;
+
+            //********* NOW LETS SORT OUR COMMENTS *********/
+
+            //Then loop through the comments
+            commentData.forEach((cmt) =>
+            {  
+                //Check commentsAdded is less than our global variable if we're not targetting a journal, or if we are just display all.
+                if(journalTargetted === true || journalTargetted === false && commentsAdded < NR_CMTS)
                 {
-                    //create a new comment div
-                    let cmtDiv = document.createElement("div");
-                    cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
-                    cmtDiv.classList.add("commentDiv");
+                    //and if the current comment.jounralId === journal.id, add it on beneath the current journal
+                    if (parseInt(cmt.journalId) === parseInt(jrnl.id))
+                    {
+                        //create a new comment div
+                        let cmtDiv = document.createElement("div");
+                        cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
+                        cmtDiv.classList.add("commentDiv");
 
-                    //create a p to store comment id
-                    let cmtIdP = document.createElement("p");
-                    cmtIdP.setAttribute("id",cmt.id+"idp");
-                    cmtIdP.innerText = "Comment id: " +cmt.id;
-                    cmtIdP.classList.add("commentId");
+                        //create a p to store comment id
+                        let cmtIdP = document.createElement("p");
+                        cmtIdP.setAttribute("id",cmt.id+"idp");
+                        cmtIdP.innerText = "Comment id: " +cmt.id;
+                        cmtIdP.classList.add("commentId");
 
-                    //create a p to store comment content
-                    let cmtContentP = document.createElement("p");
-                    cmtContentP.setAttribute("id",cmt.id+"contentp");
-                    cmtContentP.innerText = cmt.content;
-                    cmtContentP.classList.add("commentContent");
+                        //create a p to store comment content
+                        let cmtContentP = document.createElement("p");
+                        cmtContentP.setAttribute("id",cmt.id+"contentp");
+                        cmtContentP.innerText = cmt.content;
+                        cmtContentP.classList.add("commentContent");
 
-                    //create a p to store comment giphy
-                    let cmtGiphyP = document.createElement("p");
-                    cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
-                    cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`;
-                    cmtGiphyP.classList.add("commentGiphyP");
+                        //create a p to store comment giphy
+                        let cmtGiphyP = document.createElement("p");
+                        cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
+                        cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`;
+                        cmtGiphyP.classList.add("commentGiphyP");
 
-                    //create a p to store comment reactions
-                    let cmtReactionP = document.createElement("p");
-                    cmtReactionP.setAttribute("id",cmt.id+"reactionp");
-                    cmtReactionP.innerHTML= cmt.reactions;
-                    cmtGiphyP.classList.add("commentReactions");
+                        //create a p to store comment reactions
+                        let cmtReactionP = document.createElement("p");
+                        cmtReactionP.setAttribute("id",cmt.id+"reactionp");
+                        cmtReactionP.innerHTML= cmt.reactions;
+                        cmtGiphyP.classList.add("commentReactions");
 
 
 
-                    //Add them all together
-                    cmtDiv.appendChild(cmtIdP);
-                    cmtDiv.appendChild(cmtContentP);
-                    cmtDiv.appendChild(cmtGiphyP);
-                    cmtDiv.appendChild(cmtReactionP);
+                        //Add them all together
+                        cmtDiv.appendChild(cmtIdP);
+                        cmtDiv.appendChild(cmtContentP);
+                        cmtDiv.appendChild(cmtGiphyP);
+                        cmtDiv.appendChild(cmtReactionP);
 
-                    //Add them onto our journal section below their respective journal.
-                    let journalTarget = document.getElementById(cmt.journalId+"div");
-                    journalTarget.appendChild(cmtDiv);
+                        //Add them onto our journal section below their respective journal.
+                        let journalTarget = document.getElementById(cmt.journalId+"div");
+                        journalTarget.appendChild(cmtDiv);
 
-                    //add one to comments added
-                    commentsAdded ++
+                        //add one to comments added
+                        commentsAdded ++
+                    }
                 }
-            }
-            //If we've displayed too many comments...
-            else if(journalTargetted === false && commentsAdded >= NR_CMTS && viewAllAdded === false)
-            {
+                //If we've displayed too many comments...
+                else if(journalTargetted === false && commentsAdded >= NR_CMTS && viewAllAdded === false)
+                {
                     //set target journaldiv
                     let target = document.getElementById(cmt.journalId+"div");
-                    
+                        
 
                     //create a button element that contains a link to view all comments on the journal
                     let viewAllCommentsBtn = document.createElement("input");
@@ -346,17 +413,47 @@ function displayData(journalData, commentData, journalTargetted)
                     viewAllCommentsBtn.classList.add("ViewAllCommentsBtn");
                     //Add this button onto the journal div
                     target.appendChild(viewAllCommentsBtn);
-
+                    
                     viewAllAdded= true;
+
                     //Add event listener to it
                     viewAllCommentsBtn.addEventListener('click', event =>
                     {
-                        displayTargetJournal(cmt.journalId);
+                            displayTargetJournal(cmt.journalId);
                     })
-            }
-        });
-        addEventHandlers();
+                }
+            
+            });
+        }
+                
     });
+    //Add event handlers
+    addEventHandlers();
+
+    //Add pagination controls at the end.
+    if(journalTargetted === false)
+    {
+        let btn_next = document.createElement("button");
+        btn_next.setAttribute("id","btn_next");
+        btn_next.innerHTML ="Next";
+
+        let btn_prev = document.createElement("button");
+        btn_prev.setAttribute("id","btn_prev");
+        btn_prev.innerHTML="Prev";
+
+        let page_span = document.createElement("span");
+        page_span.setAttribute("id","page_span");
+        page_span.innerHTML="Page: " +current_page+ " / " + await numPages();
+        
+        let target = document.getElementById("displayJournalsSection");
+
+        target.appendChild(btn_prev);
+        target.appendChild(page_span);
+        target.appendChild(btn_next);
+
+        btn_next.addEventListener('click',nextPage);
+        btn_prev.addEventListener('click',prevPage);
+    }; 
 }
 
 
@@ -450,7 +547,7 @@ function sumbitJournal()
                 "giphy": giphyUrl
             })
         })
-        .then(refreshFrontPage())
+        .then(changePage(1))
         //Throw an error if it didn't work.
         .catch ((error) => alert ("Couldn't post, reason: " +error));
 
@@ -504,7 +601,7 @@ function addCommentToJournal(jrnlid)
                 "giphy" : giphyUrl
             })
         })
-        .then(refreshFrontPage())
+        .then(changePage(1))
         .catch((error) => alert ("Couldn't post comment, reason: " + error));
     };
 
@@ -638,5 +735,51 @@ function addGiphySelectPictureJournal(content, targetDiv)
         
     })
 } 
+
+
+//**************** PAGINATION CODE **********//
+
+async function prevPage()
+{
+    page_span = document.getElementById("page_span");
+    let num_Pages = await numPages();
+    
+    if (current_page > 1) 
+    {
+        current_page--;
+        page_span.value = current_page + " / " + num_Pages;
+        changePage(current_page);
+    }
+}
+
+async function nextPage()
+{
+    page_span = document.getElementById("page_span");
+    let num_Pages = await numPages();
+
+    console.log("next clicked");
+    console.log("current page is: " +current_page)
+    console.log("numpages is: " + num_Pages);
+    
+    if (current_page < num_Pages) 
+    {
+        current_page++;
+        page_span.value = "Page:" + current_page + " / " + num_Pages;
+        changePage(current_page);
+    }
+}
+
+async function numPages()
+{
+    let journals = await getJournals();
+    let journalsLength = 0;
+
+    journals.forEach((jrnl) => 
+    {
+        journalsLength++;
+    })
+
+    return Math.ceil( journalsLength/ journalsPerPage);
+}
 
 // END OF CODE
