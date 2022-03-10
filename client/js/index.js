@@ -433,6 +433,9 @@ async function displayData(journalData, commentData, journalTargetted)
     //Add pagination controls at the end.
     if(journalTargetted === false)
     {
+        let paginationDiv = document.createElement("pagination_div");
+        paginationDiv.setAttribute("id","pagination_div");
+
         let btn_next = document.createElement("button");
         btn_next.setAttribute("id","btn_next");
         btn_next.innerHTML ="Next";
@@ -447,9 +450,11 @@ async function displayData(journalData, commentData, journalTargetted)
         
         let target = document.getElementById("displayJournalsSection");
 
-        target.appendChild(btn_prev);
-        target.appendChild(page_span);
-        target.appendChild(btn_next);
+        paginationDiv.appendChild(btn_prev);
+        paginationDiv.appendChild(page_span);
+        paginationDiv.appendChild(btn_next);
+
+        target.appendChild(paginationDiv);
 
         btn_next.addEventListener('click',nextPage);
         btn_prev.addEventListener('click',prevPage);
