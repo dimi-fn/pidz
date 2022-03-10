@@ -284,32 +284,42 @@ async function displayData(journalData, commentData, journalTargetted)
             let journalReactionvalue1 = document.createElement("div");
             journalReactionvalue1.setAttribute("id","jrnl"+jrnl.id+"reactValueDiv"+1);
             journalReactionvalue1.innerHTML = jrnl.reactions[0];
-            journalReactionvalue1.classList.add("journalReactionValue")
+            journalReactionvalue1.classList.add("journalReactionValue");
+            journalReactionvalue1.setAttribute("name",jrnl.id+",react,1");
+            
 
             let journalReactionEmoji1 = document.createElement("div");
             journalReactionEmoji1.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+1);
             journalReactionEmoji1.innerHTML=":)";
-            journalReactionEmoji1.classList.add("JournalReactionEmoji");
+            journalReactionEmoji1.classList.add("journalReactionEmoji");
+            journalReactionEmoji1.setAttribute("name",jrnl.id+",react,1");
+            
 
             let journalReactionvalue2 = document.createElement("div");
             journalReactionvalue2.setAttribute("id","jrnl"+jrnl.id+"reactValueDiv"+2);
             journalReactionvalue2.innerHTML = jrnl.reactions[1];
-            journalReactionvalue2.classList.add("JournalReactionValue");
+            journalReactionvalue2.classList.add("journalReactionValue");
+            journalReactionvalue2.setAttribute("name",jrnl.id+",react,2");
+            
 
             let journalReactionEmoji2 = document.createElement("div");
             journalReactionEmoji2.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+2);
             journalReactionEmoji2.innerHTML=":|";
-            journalReactionEmoji2.classList.add("JournalReactionEmoji");
+            journalReactionEmoji2.classList.add("journalReactionEmoji");
+            journalReactionEmoji2.setAttribute("name",jrnl.id+",react,2");
+            
 
             let journalReactionvalue3 = document.createElement("div");
             journalReactionvalue3.setAttribute("id","jrnl"+jrnl.id+"reactValueDiv"+3);
             journalReactionvalue3.innerHTML = jrnl.reactions[2];
-            journalReactionvalue3.classList.add("JournalReactionValue");
+            journalReactionvalue3.setAttribute("name",jrnl.id+",react,3");
+            journalReactionvalue3.classList.add("journalReactionValue");
 
             let journalReactionEmoji3 = document.createElement("div");
             journalReactionEmoji3.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+3);
             journalReactionEmoji3.innerHTML=":(";
-            journalReactionEmoji3.classList.add("JournalReactionEmoji");
+            journalReactionEmoji3.setAttribute("name",jrnl.id+",react,3");
+            journalReactionEmoji3.classList.add("journalReactionEmoji");
 
             //Put the reaction div together
 
@@ -376,6 +386,8 @@ async function displayData(journalData, commentData, journalTargetted)
             journalCommentForm.appendChild(journalCommentGiphyBtn);
             journalCommentForm.appendChild(journalCommentGiphyPreview);
             journalCommentForm.appendChild(journalCommentInputSubmit);
+            journalCommentInputDiv.appendChild(journalCommentForm);
+
 
 
             //Put the journal together
@@ -385,13 +397,18 @@ async function displayData(journalData, commentData, journalTargetted)
             journalDiv.appendChild(journalReactionDiv);
             journalDiv.appendChild(journalCommentInputDiv);
 
-            //Add comment form to journal
-            journalDiv.appendChild(journalCommentForm);
-
             //Add the completed journalDiv to displayJournalsSection
             document.getElementById("displayJournalsSection").appendChild(journalDiv);
             
             journalsAdded++;
+
+            //Add event listeners for reacts
+            journalReactionvalue1.addEventListener('click',updateJournalReactions);
+            journalReactionEmoji1.addEventListener('click',updateJournalReactions);
+            journalReactionvalue2.addEventListener('click',updateJournalReactions);
+            journalReactionEmoji2.addEventListener('click',updateJournalReactions);
+            journalReactionvalue3.addEventListener('click',updateJournalReactions);
+            journalReactionEmoji3.addEventListener('click',updateJournalReactions);
 
             //********* NOW LETS SORT OUR COMMENTS *********/
 
@@ -437,31 +454,37 @@ async function displayData(journalData, commentData, journalTargetted)
                             cmtReactionvalue1.setAttribute("id","cmt"+cmt.id+"reactValueDiv"+1);
                             cmtReactionvalue1.innerHTML = cmt.reactions[0];
                             cmtReactionvalue1.classList.add("commentReactionValue");
+                            cmtReactionvalue1.setAttribute("name",cmt.id+",react,1");
 
                             let cmtReactionEmoji1 = document.createElement("div");
                             cmtReactionEmoji1.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+1);
                             cmtReactionEmoji1.innerHTML=":)";
                             cmtReactionEmoji1.classList.add("commentReactionEmoji");
+                            cmtReactionEmoji1.setAttribute("name",cmt.id+",react,1");
 
                             let cmtReactionvalue2 = document.createElement("div");
                             cmtReactionvalue2.setAttribute("id","cmt"+cmt.id+"reactValueDiv"+2);
                             cmtReactionvalue2.innerHTML = cmt.reactions[1];
                             cmtReactionvalue2.classList.add("commentReactionValue");
+                            cmtReactionvalue2.setAttribute("name",cmt.id+",react,2");
 
                             let cmtReactionEmoji2 = document.createElement("div");
                             cmtReactionEmoji2.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+2);
                             cmtReactionEmoji2.innerHTML=":|";
                             cmtReactionEmoji2.classList.add("commentReactionEmoji");
+                            cmtReactionEmoji2.setAttribute("name",cmt.id+",react,2");
 
                             let cmtReactionvalue3 = document.createElement("div");
                             cmtReactionvalue3.setAttribute("id","cmt"+cmt.id+"reactValueDiv"+3);
                             cmtReactionvalue3.innerHTML = cmt.reactions[2];
                             cmtReactionvalue3.classList.add("commentReactionValue");
+                            cmtReactionvalue3.setAttribute("name",cmt.id+",react,3");
 
                             let cmtReactionEmoji3 = document.createElement("div");
                             cmtReactionEmoji3.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+3);
                             cmtReactionEmoji3.innerHTML=":(";
                             cmtReactionEmoji3.classList.add("commentReactionEmoji");
+                            cmtReactionvalue3.setAttribute("name",cmt.id+",react,3");
 
                         //Put them together
                         cmtReactionDiv.appendChild(cmtReactionvalue1);
@@ -485,6 +508,14 @@ async function displayData(journalData, commentData, journalTargetted)
 
                         //add one to comments added
                         commentsAdded ++
+
+
+                        cmtReactionvalue1.addEventListener('click',updateCommentReactions);
+                        cmtReactionEmoji1.addEventListener('click',updateCommentReactions);
+                        cmtReactionvalue2.addEventListener('click',updateCommentReactions);
+                        cmtReactionEmoji2.addEventListener('click',updateCommentReactions);
+                        cmtReactionvalue3.addEventListener('click',updateCommentReactions);
+                        cmtReactionEmoji3.addEventListener('click',updateCommentReactions);
                     }
                 }
                 //If we've displayed too many comments...
@@ -711,7 +742,47 @@ function addCommentToJournal(jrnlid)
 // ************** UPDATE CODE BELOW ********************** //
 
 
-function updateJournalReactions(jId,reaction)
+function updateJournalReactions(event)
+{
+    //  id  "jrnl"+jrnl.id+"reactValueDiv" || "jrnl"+jrnl.id+"reactEmojiDiv"
+
+    //  name jrnl.id+",react,1"
+
+    // Split:  0 - jrnl.id  1 - react  2 - 1/2/3
+
+    let targetid= event.target.getAttribute("id");
+    let clickedDiv = document.getElementById(targetid);
+    let targetName = clickedDiv.getAttribute("name");
+    console.log("targetName: "+targetName);
+
+    let targetArray = targetName.split(",");
+
+    let targetDiv = document.getElementById("jrnl"+targetArray[0]+"reactValueDiv"+targetArray[2]);
+
+    let value = parseInt(targetDiv.innerHTML);
+    
+    value++;
+    
+    targetDiv.innerHTML = value;
+
+    let reactionToReturn = [];
+
+    let reaction1 = parseInt(document.getElementById("jrnl"+targetArray[0]+"reactValueDiv1").innerHTML);
+    let reaction2 = parseInt(document.getElementById("jrnl"+targetArray[0]+"reactValueDiv2").innerHTML);
+    let reaction3 = parseInt(document.getElementById("jrnl"+targetArray[0]+"reactValueDiv3").innerHTML);
+
+    reactionToReturn.push(reaction1);
+    reactionToReturn.push(reaction2);
+    reactionToReturn.push(reaction3);
+
+    updateJournalReactionsPatch(targetArray[0],reactionToReturn)
+    
+    
+}
+
+
+
+function updateJournalReactionsPatch(jId,reaction)
 {
     fetch("http://localhost:3000/journal/update/"+jId,
     {
@@ -724,7 +795,47 @@ function updateJournalReactions(jId,reaction)
     });
 }
 
-function updateCommentReactions(cId,reaction)
+function updateCommentReactions(event)
+{
+
+    //  id  "cmt"+cmt.id+"reactValueDiv" || "cmt"+cmt.id+"reactEmojiDiv"
+
+    //  name cmt.id+",react,1"
+
+    // Split:  0 - jrnl.id  1 - react  2 - 1/2/3
+
+    let targetid= event.target.getAttribute("id");
+
+    let clickedDiv = document.getElementById(targetid);
+
+    let targetName = clickedDiv.getAttribute("name");
+    console.log("targetName: "+targetName);
+
+    let targetArray = targetName.split(",");
+
+    let targetDiv = document.getElementById("cmt"+targetArray[0]+"reactValueDiv"+targetArray[2]);
+
+    let value = parseInt(targetDiv.innerHTML);
+
+    value++;
+    
+    targetDiv.innerHTML = value;
+
+    let reactionToReturn = [];
+
+    let reaction1 = parseInt(document.getElementById("cmt"+targetArray[0]+"reactValueDiv1").innerHTML);
+    let reaction2 = parseInt(document.getElementById("cmt"+targetArray[0]+"reactValueDiv2").innerHTML);
+    let reaction3 = parseInt(document.getElementById("cmt"+targetArray[0]+"reactValueDiv3").innerHTML);
+
+    reactionToReturn.push(reaction1);
+    reactionToReturn.push(reaction2);
+    reactionToReturn.push(reaction3);
+
+    updateCommentReactionsPatch(targetArray[0],reactionToReturn)
+
+}
+
+function updateCommentReactionsPatch(cId,reaction)
 {
     fetch("http://localhost:3000/comment/update/"+cId,
     {
