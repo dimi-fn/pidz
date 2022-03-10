@@ -37,7 +37,7 @@
 /* JOURNAL COMMENT INPUT DIV CLASSES */
 .JournalCommentInputDiv
 {
-
+    border-style: dotted;
 }
 
 .journalCommentForm
@@ -71,9 +71,9 @@
 
 /* COMMENT DISPLAY CLASSES */
 
-.commentdiv
+.commentDiv
 {
-    border-style: dotted;
+    border-style: dashed;
 }
 
 .JournalCommentInputDiv
@@ -93,7 +93,7 @@
 
 .commentReactions
 {
-    
+
 }
 
 
