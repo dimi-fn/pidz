@@ -1,4 +1,14 @@
-showAllJournals();
+//*********** GLOBAL VARIABLES  ************/
+
+//giphy apikey and nr gifs to let user choose from
+let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
+const NR_GIF = 4;
+
+//number comments to show under each journal on frontpage
+const NR_CMTS = 4;
+
+
+refreshFrontPage();
 addEventHandlers();
 
 function addEventHandlers()
@@ -31,7 +41,7 @@ function buttonHandler (submitEvent)
     // If choice === refreshJournals // call showAllJournals 
     else if (choice === 'refreshJournals')
     {
-        showAllJournals();
+        refreshFrontPage();
     }
     // if choice === commentGiphyBtn // start add giphy process
     else if(choice === 'commentGiphyBtn')
@@ -88,16 +98,63 @@ function buttonHandler (submitEvent)
     }
 }
 
+//Gets all data and then calls display data to show all on front page
+async function refreshFrontPage ()
+{
+
+
+        //Create variables containing both sets of data, by calling functions which return journals and comments
+        let journalData = await getJournals();
+        let commentData = await getComments();
+        //We're doing a general refresh, so no targetting.
+        let journaTargetted = false;
+
+        displayData(journalData, commentData, journaTargetted);        
+}
+
+//gets a single journal and then calls display data to show it and all comments on front page
+async function displayTargetJournal(targetJournalId)
+{
+    //get all data
+    let journalData = await getJournals();
+    let commentData = await getComments();
+    let journalTargetted = true;
+    
+    //variables for our data to pass
+    let journalToPass = [];
+    let commentsToPass = [];
+
+    //loop through our journals, get the one we want and save it as our data to pass
+    journalData.forEach((jrnl) =>
+    {
+        if(parseInt(jrnl.id) === parseInt(targetJournalId))
+        {
+            journalToPass.push(jrnl);
+        };
+    });
+
+    //loop through comments, get the one we want and save it as our data to pass
+    commentData.forEach((cmt) =>
+    {
+        if(parseInt(cmt.journalId) === parseInt(targetJournalId))
+        {
+            commentsToPass.push(cmt);
+        };
+    });
+
+    //Send them to display
+    displayData(journalToPass,commentsToPass, journalTargetted);
+}
 
 //Refreshes screen, displaying all Journals and comments
-async function showAllJournals()
+function displayData(journalData, commentData, journalTargetted)
 {
     //Clear what's on screen rn.
     document.getElementById("displayJournalsSection").innerHTML="";
+    //Create variable for comment added tracking.
+    let commentsAdded = 0;
 
-    //Create variables containing both sets of data, by calling functions which return journals and comments
-    let journalData = await getJournals();
-    let commentData = await getComments();
+
 
     //Sort our journals and comments in descending order by id
     journalData.sort((a,b) => parseInt(b.id) - parseInt(a.id));
@@ -106,6 +163,9 @@ async function showAllJournals()
     //Loop through our journals
     journalData.forEach((jrnl) =>
     {
+        //reset comments added variable
+        commentsAdded = 0;
+
         //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
         let journalDiv = document.createElement("div");
         journalDiv.setAttribute("id",jrnl.id+"div");
@@ -194,47 +254,77 @@ async function showAllJournals()
         //Then loop through the comments
         commentData.forEach((cmt) =>
         {  
-            //and if the current comment.jounralId === journal.id, add it on beneath the current journal
-            if (parseInt(cmt.journalId) === parseInt(jrnl.id))
+            //Check commentsAdded is less than our global variable if we're not targetting a journal, or if we are just display all.
+            if(journalTargetted === true || journalTargetted === false && commentsAdded < NR_CMTS)
             {
-                //create a new comment div
-                let cmtDiv = document.createElement("div");
-                cmtDiv.setAttribute("id",cmt.id+"div");
-                cmtDiv.setAttribute("class","comment");
+                //and if the current comment.jounralId === journal.id, add it on beneath the current journal
+                if (parseInt(cmt.journalId) === parseInt(jrnl.id))
+                {
+                    //create a new comment div
+                    let cmtDiv = document.createElement("div");
+                    cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
+                    cmtDiv.setAttribute("class","comment");
 
-                //create a p to store comment id
-                let cmtIdP = document.createElement("p");
-                cmtIdP.setAttribute("id",cmt.id+"idp");
-                cmtIdP.innerText = "Comment id: " +cmt.id;
+                    //create a p to store comment id
+                    let cmtIdP = document.createElement("p");
+                    cmtIdP.setAttribute("id",cmt.id+"idp");
+                    cmtIdP.innerText = "Comment id: " +cmt.id;
 
-                //create a p to store comment content
-                let cmtContentP = document.createElement("p");
-                cmtContentP.setAttribute("id",cmt.id+"contentp");
-                cmtContentP.innerText = cmt.content;
+                    //create a p to store comment content
+                    let cmtContentP = document.createElement("p");
+                    cmtContentP.setAttribute("id",cmt.id+"contentp");
+                    cmtContentP.innerText = cmt.content;
 
-                //create a p to store comment giphy
-                let cmtGiphyP = document.createElement("p");
-                cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
-                cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`
+                    //create a p to store comment giphy
+                    let cmtGiphyP = document.createElement("p");
+                    cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
+                    cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`
 
-                //create a p to store comment reactions
-                let cmtReactionP = document.createElement("p");
-                cmtReactionP.setAttribute("id",cmt.id+"reactionp");
-                cmtReactionP.innerHTML= cmt.reactions;
+                    //create a p to store comment reactions
+                    let cmtReactionP = document.createElement("p");
+                    cmtReactionP.setAttribute("id",cmt.id+"reactionp");
+                    cmtReactionP.innerHTML= cmt.reactions;
 
 
 
-                //Add them all together
-                cmtDiv.appendChild(cmtIdP).appendChild(cmtContentP).appendChild(cmtGiphyP).appendChild(cmtReactionP);
+                    //Add them all together
+                    cmtDiv.appendChild(cmtIdP).appendChild(cmtContentP).appendChild(cmtGiphyP).appendChild(cmtReactionP);
 
-                //Add them onto our journal section below their respective journal.
-                document.getElementById("displayJournalsSection").appendChild(cmtDiv);
+                    //Add them onto our journal section below their respective journal.
+                    document.getElementById("displayJournalsSection").appendChild(cmtDiv);
+
+                    //add one to comments added
+                    commentsAdded ++
+                }
             }
+            //If we've displayed too many comments...
+            else if(journalTargetted === false && commentsAdded >= NR_CMTS)
+            {
+                    //set target journaldiv
+                    let target = document.getElementById(cmt.journalId+"div");
+                    console.log("Target div is "+ target.id );
+
+                    //create a button element that contains a link to view all comments on the journal
+                    let viewAllCommentsBtn = document.createElement("input");
+                    viewAllCommentsBtn.setAttribute("id",jrnl.id+"viewAllCmtsButton");
+                    viewAllCommentsBtn.type = "submit";
+                    viewAllCommentsBtn.value = "View all comments";
+                    //Add this button onto the journal div
+                    target.appendChild(viewAllCommentsBtn);
+                    //Add event listener to it
+                    viewAllCommentsBtn.addEventListener('click', event =>
+                    {
+                        displayTargetJournal(cmt.journalId);
+                    })
+            }
+            
         });
 
         addEventHandlers();
     });
 }
+
+
 
 
 
@@ -325,7 +415,7 @@ function sumbitJournal()
                 "giphy": giphyUrl
             })
         })
-        .then(showAllJournals())
+        .then(refreshFrontPage())
         //Throw an error if it didn't work.
         .catch ((error) => alert ("Couldn't post, reason: " +error));
 
@@ -379,7 +469,7 @@ function addCommentToJournal(jrnlid)
                 "giphy" : giphyUrl
             })
         })
-        .then(showAllJournals())
+        .then(refreshFrontPage())
         .catch((error) => alert ("Couldn't post comment, reason: " + error));
     };
 
@@ -418,8 +508,6 @@ function updateCommentReactions(cId,reaction)
 // ************* GIPHY CODE BELOW ************* //
 
 
-let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
-const NR_GIF = 4;
 
 function addGiphytoComment(journalId, searchTerm)
 {
