@@ -169,44 +169,49 @@ function displayData(journalData, commentData, journalTargetted)
         //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
         let journalDiv = document.createElement("div");
         journalDiv.setAttribute("id",jrnl.id+"div");
-        journalDiv.setAttribute("class","journal");
+        journalDiv.classList.add("journaldiv");
 
         //Create P element to display journal id
         let journalIDP = document.createElement("p");
         journalIDP.setAttribute("id",jrnl.id+ "idp");
         journalIDP.innerText = "Journal id:" + jrnl.id;
+        journalIDP.classList.add("journalId")
 
 
         //Create P element to display journal content
         let journalContentP = document.createElement("p");
         journalContentP.setAttribute("id",jrnl.id+"contentp");
         journalContentP.innerText = jrnl.content;
+        journalContentP.classList.add("journalContent");
         
         //Create a P element to display giphy
         let journalGiphyP = document.createElement("div");
         journalGiphyP.setAttribute("id",jrnl.id+"giphyp");
-        journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`
+        journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`;
+        journalGiphyP.classList.add("journalGiphy");
 
         //create a P element to display reactions
         let journalReactionP = document.createElement("p");
         journalReactionP.setAttribute("id",jrnl.id+"reactionp");
         journalReactionP.innerHTML = jrnl.reactions;
-
+        journalReactionP.classList.add("JournalReactions");
 
         //create div for adding comments
         let journalCommentInputDiv = document.createElement("div");
         journalCommentInputDiv.setAttribute("id",jrnl.id+"cmtdiv");
-        journalCommentInputDiv.setAttribute("class","cmtInputDiv");
+        journalCommentInputDiv.classList.add("JournalCommentInputDiv");
 
         //create form for adding comments
         let journalCommentForm = document.createElement("form");
         journalCommentForm.setAttribute("id",jrnl.id+"cmtform");
+        journalCommentForm.classList.add("journalCommentForm")
 
 
         //Create text input box for adding comments
         let journalCommentInput = document.createElement("input");
         journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
         journalCommentInput.type = "text";
+        journalCommentInput.classList.add("journalCommentInput");
 
         //create button to submit comment
         let journalCommentInputSubmit = document.createElement("input");
@@ -214,11 +219,13 @@ function displayData(journalData, commentData, journalTargetted)
         journalCommentInputSubmit.type = "submit";
         journalCommentInputSubmit.value = "Submit Comment";
         journalCommentInputSubmit.name = jrnl.id;
+        journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn")
 
         //create giphy search bar for adding giphy to comment
         let journalCommentGiphySearch = document.createElement("input");
         journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch")
         journalCommentGiphySearch.type = "text";
+        journalCommentGiphySearch.classList.add("JournalCommentGiphySearchBar")
 
         //create giphy button for adding giphy to comment
         let journalCommentGiphyBtn = document.createElement("input");
@@ -226,11 +233,12 @@ function displayData(journalData, commentData, journalTargetted)
         journalCommentGiphyBtn.setAttribute("id","commentGiphyBtn");
         journalCommentGiphyBtn.value = "Select Giphy";
         journalCommentGiphyBtn.name = jrnl.id+"commentGiphyBtn";
+        journalCommentGiphyBtn.classList.add("journalCommentGiphySearchBtn")
 
         //create giphy preview div
         let journalCommentGiphyPreview = document.createElement("div");
         journalCommentGiphyPreview.setAttribute("id",jrnl.id+"cmtGiphyPreview");
-        journalCommentGiphyPreview.classList.add("cmtGiphyPreview");
+        journalCommentGiphyPreview.classList.add("journalCmtGiphyPreview");
 
         //Put the comment input form together
         journalCommentForm.appendChild(journalCommentInput);
@@ -263,27 +271,31 @@ function displayData(journalData, commentData, journalTargetted)
                     //create a new comment div
                     let cmtDiv = document.createElement("div");
                     cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
-                    cmtDiv.setAttribute("class","comment");
+                    cmtDiv.classList.add("commentDiv");
 
                     //create a p to store comment id
                     let cmtIdP = document.createElement("p");
                     cmtIdP.setAttribute("id",cmt.id+"idp");
                     cmtIdP.innerText = "Comment id: " +cmt.id;
+                    cmtIdP.classList.add("commentId");
 
                     //create a p to store comment content
                     let cmtContentP = document.createElement("p");
                     cmtContentP.setAttribute("id",cmt.id+"contentp");
                     cmtContentP.innerText = cmt.content;
+                    cmtContentP.classList.add("commentContent");
 
                     //create a p to store comment giphy
                     let cmtGiphyP = document.createElement("p");
                     cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
-                    cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`
+                    cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`;
+                    cmtGiphyP.classList.add("commentGiphyP");
 
                     //create a p to store comment reactions
                     let cmtReactionP = document.createElement("p");
                     cmtReactionP.setAttribute("id",cmt.id+"reactionp");
                     cmtReactionP.innerHTML= cmt.reactions;
+                    cmtGiphyP.classList.add("commentReactions");
 
 
 
@@ -309,6 +321,7 @@ function displayData(journalData, commentData, journalTargetted)
                     viewAllCommentsBtn.setAttribute("id",jrnl.id+"viewAllCmtsButton");
                     viewAllCommentsBtn.type = "submit";
                     viewAllCommentsBtn.value = "View all comments";
+                    viewAllCommentsBtn.classList.add("ViewAllCommentsBtn");
                     //Add this button onto the journal div
                     target.appendChild(viewAllCommentsBtn);
                     //Add event listener to it
