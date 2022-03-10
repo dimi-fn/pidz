@@ -4,7 +4,7 @@
 let apikey = "plyhLse5MeEGhzbbKjkGgEHPwyOfS5Qh";
 const NR_GIF = 4;
 
-//number comments to show under each journal on frontpage
+//number comments to show under each journal on frontpage - DONT CHANGE THIS TO LESS THAN 3.  IT BREAKS.  IDK WHY
 const NR_CMTS = 4;
 
 //PAGINATION Global variables -- PAGINATION CODE AT BOTTOM OF INDEX.JS
