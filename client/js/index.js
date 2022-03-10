@@ -128,7 +128,7 @@ async function changePage(page)
     let journalData = await getJournals();
     let commentData = await getComments();
     //We're switching pages, so no targetting.
-    let journaTargetted = false;
+    let journalTargetted = false;
 
     //create our array to send back
     let returnData = [];
@@ -174,7 +174,7 @@ async function changePage(page)
 
     page_span.innerHTML="Page: " + current_page + " / " + await numPages(); 
 
-    displayData(returnData, commentData, journaTargetted)
+    displayData(returnData, commentData, journalTargetted)
 
 }
 
@@ -254,13 +254,13 @@ async function displayData(journalData, commentData, journalTargetted)
             let journalDiv = document.createElement("div");
             journalDiv.setAttribute("id",jrnl.id+"div");
             journalDiv.classList.add("journaldiv");
-            journalDiv.classList.add("card")
+            journalDiv.classList.add("card");
 
             //Create P element to display journal id
             let journalIDP = document.createElement("p");
             journalIDP.setAttribute("id",jrnl.id+ "idp");
             journalIDP.innerText = "Journal id:" + jrnl.id;
-            journalIDP.classList.add("journalId")
+            journalIDP.classList.add("journalId");
 
 
             //Create P element to display journal content
@@ -275,12 +275,52 @@ async function displayData(journalData, commentData, journalTargetted)
             journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`;
             journalGiphyP.classList.add("journalGiphy");
 
-            //create a P element to display reactions
-            let journalReactionP = document.createElement("p");
-            journalReactionP.setAttribute("id",jrnl.id+"reactionp");
-            journalReactionP.innerHTML = jrnl.reactions;
-            journalReactionP.classList.add("JournalReactions");
+            //create a div element to display reactions
+            let journalReactionDiv = document.createElement("div");
+            journalReactionDiv.setAttribute("id","jrnl"+jrnl.id+"reactionDiv");
+            journalReactionDiv.classList.add("JournalReactionDiv");
 
+            //create inner divs for values and emojis
+            let journalReactionvalue1 = document.createElement("div");
+            journalReactionvalue1.setAttribute("id","jrnl"+jrnl.id+"reactValueDiv"+1);
+            journalReactionvalue1.innerHTML = jrnl.reactions[0];
+            journalReactionvalue1.classList.add("journalReactionValue")
+
+            let journalReactionEmoji1 = document.createElement("div");
+            journalReactionEmoji1.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+1);
+            journalReactionEmoji1.innerHTML=":)";
+            journalReactionEmoji1.classList.add("JournalReactionEmoji");
+
+            let journalReactionvalue2 = document.createElement("div");
+            journalReactionvalue2.setAttribute("id","jrnl"+jrnl.id+"reactValueDiv"+2);
+            journalReactionvalue2.innerHTML = jrnl.reactions[1];
+            journalReactionvalue2.classList.add("JournalReactionValue");
+
+            let journalReactionEmoji2 = document.createElement("div");
+            journalReactionEmoji2.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+2);
+            journalReactionEmoji2.innerHTML=":|";
+            journalReactionEmoji2.classList.add("JournalReactionEmoji");
+
+            let journalReactionvalue3 = document.createElement("div");
+            journalReactionvalue3.setAttribute("id","jrnl"+jrnl.id+"reactValueDiv"+3);
+            journalReactionvalue3.innerHTML = jrnl.reactions[2];
+            journalReactionvalue3.classList.add("JournalReactionValue");
+
+            let journalReactionEmoji3 = document.createElement("div");
+            journalReactionEmoji3.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+3);
+            journalReactionEmoji3.innerHTML=":(";
+            journalReactionEmoji3.classList.add("JournalReactionEmoji");
+
+            //Put the reaction div together
+
+            journalReactionDiv.appendChild(journalReactionvalue1);
+            journalReactionDiv.appendChild(journalReactionEmoji1);
+
+            journalReactionDiv.appendChild(journalReactionvalue2);
+            journalReactionDiv.appendChild(journalReactionEmoji2);
+
+            journalReactionDiv.appendChild(journalReactionvalue3);
+            journalReactionDiv.appendChild(journalReactionEmoji3);
 
             //***** JOURNAL - COMMENT FORM ******/
 
@@ -302,9 +342,9 @@ async function displayData(journalData, commentData, journalTargetted)
 
             //create giphy search bar for adding giphy to comment
             let journalCommentGiphySearch = document.createElement("input");
-            journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch")
+            journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch");
             journalCommentGiphySearch.type = "text";
-            journalCommentGiphySearch.classList.add("JournalCommentGiphySearchBar")
+            journalCommentGiphySearch.classList.add("JournalCommentGiphySearchBar");
 
             //create giphy button for adding giphy to comment
             let journalCommentGiphyBtn = document.createElement("input");
@@ -312,7 +352,7 @@ async function displayData(journalData, commentData, journalTargetted)
             journalCommentGiphyBtn.setAttribute("id","commentGiphyBtn");
             journalCommentGiphyBtn.value = "Select Giphy";
             journalCommentGiphyBtn.name = jrnl.id+"commentGiphyBtn";
-            journalCommentGiphyBtn.classList.add("journalCommentGiphySearchBtn")
+            journalCommentGiphyBtn.classList.add("journalCommentGiphySearchBtn");
 
             //create giphy preview div
             let journalCommentGiphyPreview = document.createElement("div");
@@ -325,7 +365,7 @@ async function displayData(journalData, commentData, journalTargetted)
             journalCommentInputSubmit.type = "submit";
             journalCommentInputSubmit.value = "Submit Comment";
             journalCommentInputSubmit.name = jrnl.id;
-            journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn")
+            journalCommentInputSubmit.classList.add("journalCommentInputSubmitBtn");
 
 
             //******* PUT ALL TOGETHER *******/
@@ -342,7 +382,7 @@ async function displayData(journalData, commentData, journalTargetted)
             journalDiv.appendChild(journalIDP);
             journalDiv.appendChild(journalContentP);
             journalDiv.appendChild(journalGiphyP);
-            journalDiv.appendChild(journalReactionP);
+            journalDiv.appendChild(journalReactionDiv);
             journalDiv.appendChild(journalCommentInputDiv);
 
             //Add comment form to journal
@@ -388,19 +428,56 @@ async function displayData(journalData, commentData, journalTargetted)
                         cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`;
                         cmtGiphyP.classList.add("commentGiphyP");
 
-                        //create a p to store comment reactions
-                        let cmtReactionP = document.createElement("p");
-                        cmtReactionP.setAttribute("id",cmt.id+"reactionp");
-                        cmtReactionP.innerHTML= cmt.reactions;
-                        cmtGiphyP.classList.add("commentReactions");
+                        //create reaction divs for values and emojis
+                        let cmtReactionDiv = document.createElement("div");
+                        cmtReactionDiv.setAttribute("id","cmt"+cmt.id+"reactionDiv");
+                        cmtReactionDiv.classList.add("commentReactionDiv");
 
+                            let cmtReactionvalue1 = document.createElement("div");
+                            cmtReactionvalue1.setAttribute("id","cmt"+cmt.id+"reactValueDiv"+1);
+                            cmtReactionvalue1.innerHTML = cmt.reactions[0];
+                            cmtReactionvalue1.classList.add("commentReactionValue");
 
+                            let cmtReactionEmoji1 = document.createElement("div");
+                            cmtReactionEmoji1.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+1);
+                            cmtReactionEmoji1.innerHTML=":)";
+                            cmtReactionEmoji1.classList.add("commentReactionEmoji");
+
+                            let cmtReactionvalue2 = document.createElement("div");
+                            cmtReactionvalue2.setAttribute("id","cmt"+cmt.id+"reactValueDiv"+2);
+                            cmtReactionvalue2.innerHTML = cmt.reactions[1];
+                            cmtReactionvalue2.classList.add("commentReactionValue");
+
+                            let cmtReactionEmoji2 = document.createElement("div");
+                            cmtReactionEmoji2.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+2);
+                            cmtReactionEmoji2.innerHTML=":|";
+                            cmtReactionEmoji2.classList.add("commentReactionEmoji");
+
+                            let cmtReactionvalue3 = document.createElement("div");
+                            cmtReactionvalue3.setAttribute("id","cmt"+cmt.id+"reactValueDiv"+3);
+                            cmtReactionvalue3.innerHTML = cmt.reactions[2];
+                            cmtReactionvalue3.classList.add("commentReactionValue");
+
+                            let cmtReactionEmoji3 = document.createElement("div");
+                            cmtReactionEmoji3.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+3);
+                            cmtReactionEmoji3.innerHTML=":(";
+                            cmtReactionEmoji3.classList.add("commentReactionEmoji");
+
+                        //Put them together
+                        cmtReactionDiv.appendChild(cmtReactionvalue1);
+                        cmtReactionDiv.appendChild(cmtReactionEmoji1);
+
+                        cmtReactionDiv.appendChild(cmtReactionvalue2);
+                        cmtReactionDiv.appendChild(cmtReactionEmoji2);
+
+                        cmtReactionDiv.appendChild(cmtReactionvalue3);
+                        cmtReactionDiv.appendChild(cmtReactionEmoji3);
 
                         //Add them all together
                         cmtDiv.appendChild(cmtIdP);
                         cmtDiv.appendChild(cmtContentP);
                         cmtDiv.appendChild(cmtGiphyP);
-                        cmtDiv.appendChild(cmtReactionP);
+                        cmtDiv.appendChild(cmtReactionDiv);
 
                         //Add them onto our journal section below their respective journal.
                         let journalTarget = document.getElementById(cmt.journalId+"div");
