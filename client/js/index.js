@@ -218,6 +218,16 @@ async function displayData(journalData, commentData, journalTargetted)
 {
     //Clear what's on screen rn.
     document.getElementById("displayJournalsSection").innerHTML="";
+    //IF anything is in input boxes, yeet it
+    let contentInputBoxCLR = document.getElementById("contentInputBox");
+    let giphytextsearchCLR = document.getElementById("giphytextsearch");
+    let giphyPreviewDivCLR= document.getElementById("newJournalGiphyPreview");
+
+    contentInputBoxCLR.value = "";
+    giphytextsearchCLR.value = "";
+    giphyPreviewDivCLR.innerHTML = "";
+
+
     //Create variable for comment added tracking.
     let commentsAdded = 0;
     let viewAllAdded = false;
@@ -244,6 +254,7 @@ async function displayData(journalData, commentData, journalTargetted)
             let journalDiv = document.createElement("div");
             journalDiv.setAttribute("id",jrnl.id+"div");
             journalDiv.classList.add("journaldiv");
+            journalDiv.classList.add("card")
 
             //Create P element to display journal id
             let journalIDP = document.createElement("p");
@@ -357,6 +368,7 @@ async function displayData(journalData, commentData, journalTargetted)
                         let cmtDiv = document.createElement("div");
                         cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
                         cmtDiv.classList.add("commentDiv");
+                        cmtDiv.classList.add("card")
 
                         //create a p to store comment id
                         let cmtIdP = document.createElement("p");
@@ -431,8 +443,6 @@ async function displayData(journalData, commentData, journalTargetted)
     addEventHandlers();
 
     //Add pagination controls at the end.
-    if(journalTargetted === false)
-    {
         let paginationDiv = document.createElement("pagination_div");
         paginationDiv.setAttribute("id","pagination_div");
 
@@ -458,7 +468,15 @@ async function displayData(journalData, commentData, journalTargetted)
 
         btn_next.addEventListener('click',nextPage);
         btn_prev.addEventListener('click',prevPage);
-    }; 
+    if(journalTargetted === false)
+    {
+        paginationDiv.classList.add("hidden");
+    }
+    else
+    {
+        paginationDiv.classList.add("visible");
+    }
+     
 }
 
 
