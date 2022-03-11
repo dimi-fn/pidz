@@ -1,6 +1,8 @@
 .body
 {
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    background-color: rgb(116, 69, 224);;
+    /* background-color: rgb(101, 33, 255); */
 }
 
 .navbarOur
@@ -91,6 +93,7 @@
 .journalId
 {
     grid-area:id;   
+    color: rgb(204, 203, 203);
 }
 
 .journalContent
@@ -101,11 +104,13 @@
 
 .journalGiphy
 {
+    border-color: rgb(101, 33, 255);
     grid-area:giphy;
     border-style:solid;
     display : flex;
     width:300px;
     height:120px;
+    border-radius: 5px;
 
 }
 
@@ -124,17 +129,23 @@
 }
 
 .journalReactionValue
-{
-   width:20%;
+{   
+    border-color: rgb(101, 33, 255);
+    margin-top: 15px;
+    width:20%;
    text-align: center;
    border-style:solid;
+   border-radius: 5px;
 }
 
 .journalReactionEmoji
 {
+    border-color: rgb(101, 33, 255);
+    margin-top: 15px;
     width:20%;
     text-align: center;
     border-style:solid;
+    border-radius: 5px;
 }
 
 .journalGiphyPreview
@@ -249,6 +260,8 @@
     height:120px;
     object-fit: fill;
     border: solid;
+    border-radius: 5px;
+    border-color: rgb(101, 33, 255);
 }
 
 .commentReactionDiv
@@ -263,6 +276,8 @@
     width:20%;
     text-align: center;
     border-style:solid;
+    border-color: rgb(101, 33, 255);
+    border-radius: 5px;
 }
 
 .commentReactionEmoji
@@ -270,11 +285,16 @@
     width:20%;
     text-align: center;
     border-style:solid;
+    border-color: rgb(101, 33, 255);
+    border-radius: 5px;
 }
 
 .paginationDiv
 {
     margin-left:2em;
+}
+.commentId{
+    color: rgb(204, 203, 203);
 }
 
 

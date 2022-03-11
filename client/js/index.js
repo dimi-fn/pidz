@@ -302,7 +302,7 @@ async function displayData(journalData, commentData, journalTargetted)
 
             let journalReactionEmoji1 = document.createElement("div");
             journalReactionEmoji1.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+1);
-            journalReactionEmoji1.innerHTML=":)";
+            journalReactionEmoji1.innerHTML="&#128512"; // Smile 
             journalReactionEmoji1.classList.add("journalReactionEmoji");
             journalReactionEmoji1.setAttribute("name",jrnl.id+",react,1");
             
@@ -316,7 +316,7 @@ async function displayData(journalData, commentData, journalTargetted)
 
             let journalReactionEmoji2 = document.createElement("div");
             journalReactionEmoji2.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+2);
-            journalReactionEmoji2.innerHTML=":|";
+            journalReactionEmoji2.innerHTML="&#128549"; // Sad emoji
             journalReactionEmoji2.classList.add("journalReactionEmoji");
             journalReactionEmoji2.setAttribute("name",jrnl.id+",react,2");
             
@@ -329,7 +329,7 @@ async function displayData(journalData, commentData, journalTargetted)
 
             let journalReactionEmoji3 = document.createElement("div");
             journalReactionEmoji3.setAttribute("id","jrnl"+jrnl.id+"reactEmojiDiv"+3);
-            journalReactionEmoji3.innerHTML=":(";
+            journalReactionEmoji3.innerHTML="&#128528";
             journalReactionEmoji3.setAttribute("name",jrnl.id+",react,3");
             journalReactionEmoji3.classList.add("journalReactionEmoji");
 
@@ -476,7 +476,7 @@ async function displayData(journalData, commentData, journalTargetted)
 
                             let cmtReactionEmoji1 = document.createElement("div");
                             cmtReactionEmoji1.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+1);
-                            cmtReactionEmoji1.innerHTML=":)";
+                            cmtReactionEmoji1.innerHTML="&#128512";
                             cmtReactionEmoji1.classList.add("commentReactionEmoji");
                             cmtReactionEmoji1.setAttribute("name",cmt.id+",react,1");
 
@@ -488,7 +488,7 @@ async function displayData(journalData, commentData, journalTargetted)
 
                             let cmtReactionEmoji2 = document.createElement("div");
                             cmtReactionEmoji2.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+2);
-                            cmtReactionEmoji2.innerHTML=":|";
+                            cmtReactionEmoji2.innerHTML="&#128549"; // sad emoji
                             cmtReactionEmoji2.classList.add("commentReactionEmoji");
                             cmtReactionEmoji2.setAttribute("name",cmt.id+",react,2");
 
@@ -500,9 +500,9 @@ async function displayData(journalData, commentData, journalTargetted)
 
                             let cmtReactionEmoji3 = document.createElement("div");
                             cmtReactionEmoji3.setAttribute("id","cmt"+cmt.id+"reactEmojiDiv"+3);
-                            cmtReactionEmoji3.innerHTML=":(";
+                            cmtReactionEmoji3.innerHTML="&#128528"; // straight face
                             cmtReactionEmoji3.classList.add("commentReactionEmoji");
-                            cmtReactionvalue3.setAttribute("name",cmt.id+",react,3");
+                            cmtReactionEmoji3.setAttribute("name",cmt.id+",react,3");
 
                         //Put them together
                         cmtReactionDiv.appendChild(cmtReactionvalue1);
