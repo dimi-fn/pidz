@@ -10,13 +10,15 @@ const Comment = require('./model/commentModel');
 const server = express();
 
 //set a port
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //handle our uses
 server.use(cors());
 server.use(express.json());
 server.use(express.static(path.join(__dirname, "client")));
 server.use(express.static(path.join(__dirname, "../client")));
+
+
 
 //Routing
 const siteRoutes = require("./controller/controller.js");
