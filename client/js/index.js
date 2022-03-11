@@ -29,6 +29,9 @@ function addEventHandlers()
     {
         thisButton.addEventListener('click', buttonHandler);
     });
+
+    const navLogo = document.getElementById("navbarImg");
+    navLogo.addEventListener('click',buttonHandler)
 }
 
 //*************** PATHING CODE FOR PROCEDURALLY GENERATED EVENT HANDLERS ***********//
@@ -48,7 +51,7 @@ function buttonHandler (submitEvent)
         sumbitJournal();
     }
     // If choice === refreshJournals // call showAllJournals 
-    else if (choice === 'refreshFrontPage')
+    else if (choice === 'refreshFrontPage' || 'navbarImg')
     {
         changePage(1);
     }
@@ -254,11 +257,16 @@ async function displayData(journalData, commentData, journalTargetted)
             let journalWrapper = document.createElement("div");
             journalWrapper.setAttribute("id",jrnl.id+"wrapper");
             journalWrapper.classList.add("journalWrapper");
+            journalWrapper.classList.add("rounded");
+            journalWrapper.classList.add("shadow-large");
             
             //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
             let journalDiv = document.createElement("div");
             journalDiv.setAttribute("id",jrnl.id+"div");
             journalDiv.classList.add("journaldiv");
+            journalDiv.classList.add("rounded");
+            journalDiv.classList.add("shadow-large");
+
 
             //Create P element to display journal id
             let journalIDP = document.createElement("p");
@@ -434,6 +442,8 @@ async function displayData(journalData, commentData, journalTargetted)
                         let cmtDiv = document.createElement("div");
                         cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
                         cmtDiv.classList.add("commentDiv");
+                        cmtDiv.classList.add("rounded");
+                        cmtDiv.classList.add("shadow-large")
 
                         //create a p to store comment id
                         let cmtIdP = document.createElement("p");
