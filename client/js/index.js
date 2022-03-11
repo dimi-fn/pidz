@@ -30,8 +30,8 @@ function addEventHandlers()
         thisButton.addEventListener('click', buttonHandler);
     });
 
-    const navLogo = document.getElementById("navbarImg");
-    navLogo.addEventListener('click',buttonHandler)
+    //const navLogo = document.getElementById("navbarImg");
+    //navLogo.addEventListener('click',buttonHandler)
 }
 
 //*************** PATHING CODE FOR PROCEDURALLY GENERATED EVENT HANDLERS ***********//
@@ -51,7 +51,7 @@ function buttonHandler (submitEvent)
         sumbitJournal();
     }
     // If choice === refreshJournals // call showAllJournals 
-    else if (choice === 'refreshFrontPage' || 'navbarImg')
+    else if (choice === 'refreshFrontPage' )
     {
         changePage(1);
     }
