@@ -250,11 +250,15 @@ async function displayData(journalData, commentData, journalTargetted)
 
             //******  JOURNAL ********/
 
+            //wrapper div
+            let journalWrapper = document.createElement("div");
+            journalWrapper.setAttribute("id",jrnl.id+"wrapper");
+            journalWrapper.classList.add("journalWrapper");
+            
             //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
             let journalDiv = document.createElement("div");
             journalDiv.setAttribute("id",jrnl.id+"div");
             journalDiv.classList.add("journaldiv");
-            journalDiv.classList.add("card");
 
             //Create P element to display journal id
             let journalIDP = document.createElement("p");
@@ -272,7 +276,7 @@ async function displayData(journalData, commentData, journalTargetted)
             //Create a P element to display giphy
             let journalGiphyP = document.createElement("div");
             journalGiphyP.setAttribute("id",jrnl.id+"giphyp");
-            journalGiphyP.innerHTML = `<img src = ${jrnl.giphy}>`;
+            journalGiphyP.innerHTML = `<img class = "JournalgiphyImg" src = ${jrnl.giphy}>`;
             journalGiphyP.classList.add("journalGiphy");
 
             //create a div element to display reactions
@@ -345,16 +349,18 @@ async function displayData(journalData, commentData, journalTargetted)
             journalCommentForm.classList.add("journalCommentForm")
 
             //Create text input box for adding comments
-            let journalCommentInput = document.createElement("input");
+            let journalCommentInput = document.createElement("textarea");
             journalCommentInput.setAttribute("id", jrnl.id+"cmtInput");
             journalCommentInput.type = "text";
             journalCommentInput.classList.add("journalCommentInput");
+            journalCommentInput.setAttribute("placeholder","Type comment here");
 
             //create giphy search bar for adding giphy to comment
             let journalCommentGiphySearch = document.createElement("input");
             journalCommentGiphySearch.setAttribute("id",jrnl.id+"cmtGiphySearch");
             journalCommentGiphySearch.type = "text";
             journalCommentGiphySearch.classList.add("JournalCommentGiphySearchBar");
+            journalCommentGiphySearch.setAttribute("placeholder","Search Giphy here");
 
             //create giphy button for adding giphy to comment
             let journalCommentGiphyBtn = document.createElement("input");
@@ -388,17 +394,20 @@ async function displayData(journalData, commentData, journalTargetted)
             journalCommentForm.appendChild(journalCommentInputSubmit);
             journalCommentInputDiv.appendChild(journalCommentForm);
 
-
+            
 
             //Put the journal together
             journalDiv.appendChild(journalIDP);
             journalDiv.appendChild(journalContentP);
             journalDiv.appendChild(journalGiphyP);
             journalDiv.appendChild(journalReactionDiv);
-            journalDiv.appendChild(journalCommentInputDiv);
+
+
+            journalWrapper.appendChild(journalDiv);
+            journalWrapper.appendChild(journalCommentInputDiv)
 
             //Add the completed journalDiv to displayJournalsSection
-            document.getElementById("displayJournalsSection").appendChild(journalDiv);
+            document.getElementById("displayJournalsSection").appendChild(journalWrapper);
             
             journalsAdded++;
 
@@ -425,7 +434,6 @@ async function displayData(journalData, commentData, journalTargetted)
                         let cmtDiv = document.createElement("div");
                         cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
                         cmtDiv.classList.add("commentDiv");
-                        cmtDiv.classList.add("card")
 
                         //create a p to store comment id
                         let cmtIdP = document.createElement("p");
@@ -442,7 +450,7 @@ async function displayData(journalData, commentData, journalTargetted)
                         //create a p to store comment giphy
                         let cmtGiphyP = document.createElement("p");
                         cmtGiphyP.setAttribute("id",cmt.id+"giphyp");
-                        cmtGiphyP.innerHTML = `<img src = ${cmt.giphy}>`;
+                        cmtGiphyP.innerHTML = `<img class="commentGiphyImg" src = ${cmt.giphy}>`;
                         cmtGiphyP.classList.add("commentGiphyP");
 
                         //create reaction divs for values and emojis
@@ -503,7 +511,7 @@ async function displayData(journalData, commentData, journalTargetted)
                         cmtDiv.appendChild(cmtReactionDiv);
 
                         //Add them onto our journal section below their respective journal.
-                        let journalTarget = document.getElementById(cmt.journalId+"div");
+                        let journalTarget = document.getElementById(cmt.journalId+"wrapper");
                         journalTarget.appendChild(cmtDiv);
 
                         //add one to comments added
@@ -553,6 +561,7 @@ async function displayData(journalData, commentData, journalTargetted)
     //Add pagination controls at the end.
         let paginationDiv = document.createElement("pagination_div");
         paginationDiv.setAttribute("id","pagination_div");
+        paginationDiv.classList.add("paginationDiv")
 
         let btn_next = document.createElement("button");
         btn_next.setAttribute("id","btn_next");
@@ -993,22 +1002,5 @@ async function numPages()
     return Math.ceil( journalsLength/ journalsPerPage);
 }
 
-
-window.onscroll = function() {myFunction()};
-
-
-var navbar = document.getElementById("navbar");
-
-
-var sticky = navbar.offsetTop;
-
-
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("sticky")
-  } else {
-    navbar.classList.remove("sticky");
-  }
-}
 
 // END OF CODE
