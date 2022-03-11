@@ -258,14 +258,14 @@ async function displayData(journalData, commentData, journalTargetted)
             journalWrapper.setAttribute("id",jrnl.id+"wrapper");
             journalWrapper.classList.add("journalWrapper");
             journalWrapper.classList.add("rounded");
-            journalWrapper.classList.add("shadow-large");
+            journalWrapper.classList.add("shadow-lg");
             
             //Create new journal div, set it's id to current jrnl.id +div  ( i.e.  5div )
             let journalDiv = document.createElement("div");
             journalDiv.setAttribute("id",jrnl.id+"div");
             journalDiv.classList.add("journaldiv");
             journalDiv.classList.add("rounded");
-            journalDiv.classList.add("shadow-large");
+            journalDiv.classList.add("shadow-lg");
 
 
             //Create P element to display journal id
@@ -443,7 +443,7 @@ async function displayData(journalData, commentData, journalTargetted)
                         cmtDiv.setAttribute("id",cmt.id+"cmtdiv");
                         cmtDiv.classList.add("commentDiv");
                         cmtDiv.classList.add("rounded");
-                        cmtDiv.classList.add("shadow-large")
+                        cmtDiv.classList.add("shadow-lg")
 
                         //create a p to store comment id
                         let cmtIdP = document.createElement("p");
