@@ -104,13 +104,10 @@
 
 .journalGiphy
 {
-    border-color: rgb(101, 33, 255);
     grid-area:giphy;
-    border-style:solid;
     display : flex;
     width:300px;
     height:120px;
-    border-radius: 5px;
 
 }
 
@@ -259,9 +256,7 @@
     width:300px;
     height:120px;
     object-fit: fill;
-    border: solid;
-    border-radius: 5px;
-    border-color: rgb(101, 33, 255);
+
 }
 
 .commentReactionDiv
