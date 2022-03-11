@@ -1,42 +1,147 @@
-*, ::after, ::before {
-    box-sizing: border-box;
-    display: inline;
+.body
+{
+    background-color: lightgray;
 }
 
-title {
-    text-align: center
+.navbarOur
+{
+    
+    display:grid;
+    grid-template-areas: 'logo logo input input input input input input jform jform'
+                         'logo logo input input input input input input jform jform'
+                         'TC TC input input input input input input jform jform' 
+                         'TC TC input input input input input input jform jform' ;
+
+    background-color: rgb(101, 33, 255);
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.journalForm
+{
+    grid-area: jform;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+
+.contentInputBox
+{
+    resize: none;
+    grid-area: input;
+}
+
+.navbarImg
+{
+    grid-area: logo;
+}
+
+.navbarTC
+{
+    grid-area:TC;
+    color:white;
+    text-align: left;
 
 }
+
+.giphytextsearch
+{
+    grid-area:jgs;
+}
+
+.SubmitJournalButton
+{
+    grid-area:jsbtn;
+}
+
+.giphybtnsearch
+{
+    grid-area:jgbtn;
+}
+
+.NavGiphyPreview
+{
+    grid-area:jgprev;
+}
+
+
+
 /* GENERAL JOURNAL APPEARANCE CLASSES*/
 .journaldiv
 {
-    border-style: solid;
+    
+    display:grid;
+
+    grid-template-areas: 'id id id id id id id id id id giphy giphy'
+                         'content content content content content content content content content content giphy giphy'
+                         'content content content content content content content content content content react react';
+    background-color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;    
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
 }
 
 .journalId
 {
-    
+    grid-area:id;   
 }
 
 .journalContent
 {
-
+    grid-area:content;
+    margin-right: 5px;
 }
 
 .journalGiphy
 {
+    grid-area:giphy;
+    border-style:solid;
+    display : flex;
+    width:300px;
+    height:120px;
 
 }
 
-.journalReactions
+.JournalgiphyImg
 {
-   justify-content: flex-end;
+    width:300px;
+    height:120px;
+    object-fit: fill;
+}
+
+.JournalReactionDiv
+{
+    grid-area:react;
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.journalReactionValue
+{
+   width:20%;
+   text-align: center;
+   border-style:solid;
+}
+
+.journalReactionEmoji
+{
+    width:20%;
+    text-align: center;
+    border-style:solid;
 }
 
 .journalGiphyPreview
 {
-    display:flex;
+    grid-area:giphy;
 }
+
 
 .ViewAllCommentsBtn
 {
@@ -46,31 +151,54 @@ title {
 /* JOURNAL COMMENT INPUT DIV CLASSES */
 .JournalCommentInputDiv
 {
-    border-style: dotted;
+    
 }
 
 .journalCommentForm
 {
+    margin-left: 2em;
+    
+    display:grid;
+    grid-template-areas: 'txt txt txt txt txt txt giphy giphy giphy giphy giphy giphy'
+                           'txt txt txt txt txt txt giphy giphy giphy giphy giphy giphy'
+                           'txt txt txt txt txt txt searchBar searchBar searchBar searchBar searchBar searchBar'
+                           'submit submit submit submit submit submit searchBtn searchBtn searchBtn searchBtn searchBtn searchBtn';
+    background-color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
+.JournalCommentInputDiv
+{
+
+}
+
+.journalCommentInput
+{
+    grid-area: txt;
+    resize: none;
 }
 
 .journalCommentInputSubmitBtn
 {
+    grid-area:submit;
 
 }
 
 .JournalCommentGiphySearchBar
 {
-
+    grid-area:searchBar;
 }
 
 .journalCommentGiphySearchBtn
 {
-
+    grid-area:searchBtn;
 }
 
 .journalCmtGiphyPreview
 {
+    grid-area:giphy;
+    height:8vh;
     display:flex;
 }
 
@@ -82,27 +210,71 @@ title {
 
 .commentDiv
 {
-    border-style: dashed;
+    
+    display:grid;
+    grid-template-areas: 'cid cid cid cid cid cid cid cid cid cid cgiphy cgiphy'
+                         'ccontent ccontent ccontent ccontent ccontent ccontent ccontent ccontent ccontent ccontent creact creact';
+    margin-left: 2em;
+    background-color: white;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+
 }
 
 .JournalCommentInputDiv
 {
-
+    grid-area:cid;
+    
 }
 
 .commentContent
 {
-
+    grid-area:ccontent;
+    display: flex;
+    text-align:center;
 }
 
 .commentGiphyP
 {
-  display: inline-flexbox;
+    grid-area:cgiphy;
+    display: flex;
 }
 
-.commentReactions
+.commentGiphyImg
 {
+    width:300px;
+    height:120px;
+    object-fit: fill;
+    border: solid;
+}
 
+.commentReactionDiv
+{
+    grid-area:creact;
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.commentReactionValue
+{
+    width:20%;
+    text-align: center;
+    border-style:solid;
+}
+
+.commentReactionEmoji
+{
+    width:20%;
+    text-align: center;
+    border-style:solid;
+}
+
+.paginationDiv
+{
+    margin-left:2em;
 }
 
 
@@ -119,7 +291,38 @@ title {
 }
 
 
-.container {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .container {
    padding-top: 50px;
    
 }
@@ -186,7 +389,7 @@ img {
   
   .sticky + .content {
     padding-top: 60px;
-  }
+  } */
 
 /*#displayJournalSelection {
     padding-right: 20px;
