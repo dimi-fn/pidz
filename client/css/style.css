@@ -1,12 +1,31 @@
+.body
+{
+    background-color: lightgray;
+}
+
 .navbarOur
 {
-    border-style:solid;
+    
     display:grid;
-    grid-template-areas: 'logo logo input input input input input input jgprev jgprev'
-                         'logo logo input input input input input input jgprev jgprev'
-                         'TC TC input input input input input input jgs jgs' 
-                         'TC TC input input input input input input jgbtn jsbtn' ;
+    grid-template-areas: 'logo logo input input input input input input jform jform'
+                         'logo logo input input input input input input jform jform'
+                         'TC TC input input input input input input jform jform' 
+                         'TC TC input input input input input input jform jform' ;
 
+    background-color: rgb(101, 33, 255);
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.journalForm
+{
+    grid-area: jform;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
 }
 
 .contentInputBox
@@ -23,6 +42,9 @@
 .navbarTC
 {
     grid-area:TC;
+    color:white;
+    text-align: left;
+
 }
 
 .giphytextsearch
@@ -50,13 +72,20 @@
 /* GENERAL JOURNAL APPEARANCE CLASSES*/
 .journaldiv
 {
-    border-style: solid;
+    
     display:grid;
 
     grid-template-areas: 'id id id id id id id id id id giphy giphy'
                          'content content content content content content content content content content giphy giphy'
                          'content content content content content content content content content content react react';
-    
+    background-color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;    
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
 }
 
 .journalId
@@ -67,6 +96,7 @@
 .journalContent
 {
     grid-area:content;
+    margin-right: 5px;
 }
 
 .journalGiphy
@@ -126,8 +156,6 @@
 
 .journalCommentForm
 {
-    border-style: dotted;
-
     margin-left: 2em;
     
     display:grid;
@@ -135,6 +163,9 @@
                            'txt txt txt txt txt txt giphy giphy giphy giphy giphy giphy'
                            'txt txt txt txt txt txt searchBar searchBar searchBar searchBar searchBar searchBar'
                            'submit submit submit submit submit submit searchBtn searchBtn searchBtn searchBtn searchBtn searchBtn';
+    background-color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .JournalCommentInputDiv
@@ -179,12 +210,17 @@
 
 .commentDiv
 {
-    border-style: dashed;
-
+    
     display:grid;
     grid-template-areas: 'cid cid cid cid cid cid cid cid cid cid cgiphy cgiphy'
                          'ccontent ccontent ccontent ccontent ccontent ccontent ccontent ccontent ccontent ccontent creact creact';
     margin-left: 2em;
+    background-color: white;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
 
 }
 
