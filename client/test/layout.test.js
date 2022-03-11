@@ -44,12 +44,11 @@ describe('index.html', () => {
 
         describe('form', () => {
             let form;
-            let typeHere, btnSubmitJournal, btnRefreshJournals, searchGifInput, btnFindGif;
+            let typeHere, btnSubmitJournal, searchGifInput, btnFindGif;
             beforeEach(() => {
                 form = document.querySelector('form')
                 typeHere = form.querySelector('#contentInputBox')
-                btnSubmitJournal = form.querySelector('#testSubmitJournal');
-                btnRefreshJournals = form.querySelector('#refreshJournals')
+                btnSubmitJournal = form.querySelector('#submitJournal');
                 searchGifInput = form.querySelector('#giphytextsearch')
                 btnFindGif = form.querySelector('#giphybtnsearch')
                 submitBtn = form.querySelector('[type="submit"]');
@@ -59,15 +58,15 @@ describe('index.html', () => {
                 expect(form).toBeTruthy();
             });
     
-            // <input type = "text" id = "contentInputBox" placeholder="Type here">
-            describe('input text: contentInputBox', () => {
+            // <textarea class = "contentInputBox" id = "contentInputBox" placeholder="Type journal content here"></textarea>
+            describe('input text area: contentInputBox', () => {
                 test('it has an id of "contentInputBox"', () => {
                     expect(typeHere).toBeTruthy();
                 })
 
-                test('it is a text input"', () => {
-                    expect(typeHere.getAttribute('type')).toBe('text')
-                })
+                // test('it is a text input"', () => {
+                //     expect(typeHere.getAttribute('type')).toBe('textarea')
+                // })
         
                 test('it has a label"', () => {
                     expect(document.querySelector('[for="contentInputBox"]')).toBeTruthy();
@@ -77,16 +76,16 @@ describe('index.html', () => {
             // <input id = "testSubmitJournal" type = "submit" class="postButton" value = "Publish Entry"></
             describe('submit button for "Publish Entry"', () => {
                 test('it says "Publish Entry"', () => {
-                    expect(btnSubmitJournal.value).toBe('Publish Entry');
+                    expect(btnSubmitJournal.value).toBe('Submit Journal');
                 })
             })
 
-            // <input id = "refreshJournals" type = "submit" value = "Refresh journals"></input>
-            describe('submit button for "Refresh journals"', () => {
-                test('it says "Refresh journals"', () => {
-                    expect(btnRefreshJournals.value).toBe('Refresh journals');
-                })
-            })
+            // // <input id = "refreshJournals" type = "submit" value = "Refresh journals"></input>
+            // describe('submit button for "Refresh journals"', () => {
+            //     test('it says "Refresh journals"', () => {
+            //         expect(btnRefreshJournals.value).toBe('Refresh journals');
+            //     })
+            // })
 
             // id="giphytextsearch"
             describe('input text: searchGifInput', () => {
@@ -109,9 +108,17 @@ describe('index.html', () => {
                     expect(btnFindGif.value).toBe('Find giphy');
                 })
             })
-    
 
+
+            // <div id = "newJournalGiphyPreview" class = "NavGiphyPreview"></div>
+            describe('it has div with id "newJournalGiphyPreview"', () => {
+                test('it has div with id "newJournalGiphyPreview"', () => {
+                    expect(document.querySelector('div#newJournalGiphyPreview')).toBeTruthy();
+             })
+            })
+    
         })
+    
 
         // <section id = "displayJournalsSection">
         test('it has a section to display Journals', () => {

@@ -40,7 +40,7 @@ describe("comment", () => {
 
     it('should throw an error if there is no comment', () => {
         function testError() {
-            Comment.findById(10000000000000000000000);
+            Comment.findCommentById(10000000000000000000000);
         }
         expect(testError).toThrowError('That comment does not exist!');
     });
