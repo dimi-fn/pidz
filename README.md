@@ -44,8 +44,7 @@ We believe that our website can help the mental health of visitors by reducing [
 * Users are able to choose gifs from [giphy](https://developers.giphy.com/branch/master/docs/api/#quick-start-guide) in their posts and comments
     * they are able to choose between four gifs per post or comment.
 * Users are able to view other peoples' entries.
-* Users are able to react to other peoples’ entries with an emoji. (!!!!!!!!!!)
-    * Users have three emojis to choose from (!!!!!!!!!!)
+* Users are able to react to other peoples’ entries via three emojis
 * Users are able to comment on other people’s entries.
 
 
@@ -99,13 +98,15 @@ We believe that our website can help the mental health of visitors by reducing [
 
 # Process
 
-* Created an initial design of the website at wireframe.cc
+* Created an initial design of the website at https://wireframe.cc/, and more designs at https://excalidraw.com/ for the front-end
 * Set up the server with a *models* and *controllers* directory, and got the server running
 * Created test scripts for testing the server-side
-* Set up the client side (............)
-* (..................)
+* Set up the client side
 * Created test scripts for testing the client-side
-* Used 'inspect element' for catching bugs on the front-end via the developer's tool
+
+<p align="center">
+  <img src="" alt="">
+</p> 
 
 --------
 
