@@ -1,5 +1,9 @@
 # Nojudgies.com
 
+Made by [Zeiadork](https://github.com/Zeiadork), [ImmanuelEgboche](https://github.com/ImmanuelEgboche), [PaulNKD](https://github.com/PaulNKD), and [dimi-fn](https://github.com/dimi-fn)
+
+The project is deployed at: https://no-judgies.netlify.app/
+
 
 Contents
 =======================
