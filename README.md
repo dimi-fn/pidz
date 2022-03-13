@@ -1,6 +1,6 @@
 # Nojudgies.com
 
-Made by [Zeiadork](https://github.com/Zeiadork), [ImmanuelEgboche](https://github.com/ImmanuelEgboche), [PaulNKD](https://github.com/PaulNKD), and [dimi-fn](https://github.com/dimi-fn)
+Made by [Zeiadork](https://github.com/Zeiadork), [ImmanuelEgboche](https://github.com/ImmanuelEgboche), [PaulNKD](https://github.com/PaulNKD), and [dimi-fn](https://github.com/dimi-fn).
 
 The project is deployed at: https://no-judgies.netlify.app/
 
@@ -29,12 +29,6 @@ Nojudgies.com is an online safe space for people to laugh, rant, be human, comme
 **Who is it for?**
 
 Anyone who wants to post whatever they want, anonymously, without fear of judgemenet (within reason). Have a laugh, rant, complain and not be judged.
-
-**What's its purpose?**
-
-Nojudgies.com provides a safe place where users can freely and anonymously express their thoughts that they couldn't most other places and get things off their chest.
-
-We believe that our website can help the mental health of visitors by reducing [stigma](https://www.ccmhrsb.org/stop-the-judgement), bullying, discrimination, as well as by reducing depression, anxiety, and stress levels. (reference studies: [[1]](https://www.ccmhrsb.org/stop-the-judgement), [[2]](https://www.mentalhelp.net/depression/judgmental-thinking-and-anxiety/), [[3]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3532328/))
 
 ## Website Functionality
 
