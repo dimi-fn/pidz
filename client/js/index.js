@@ -617,7 +617,7 @@ async function displayData(journalData, commentData, journalTargetted)
 function getJournals ()
 {
     //Return promise to originating function, get the journal data then return it 
-    return fetch("https://no-judgies.herokuapp.com/allJournals")
+    return fetch("http://localhost:3000/allJournals")
         .then( (resp) => resp.json())
         .then( (jData) => 
         {
@@ -630,7 +630,7 @@ function getJournals ()
 function getComments ()
 {
     //Return promise to originating function, get the comments data then return it 
-    return fetch("https://no-judgies.herokuapp.com/allComments")
+    return fetch("http://localhost:3000/allComments")
         .then( (resp) => resp.json())
         .then( (cData) => 
         {
@@ -643,7 +643,7 @@ function getComments ()
 function getCommentsByJournalID(jId)
 {
     //Return promise to originating function, get the comments data then return it 
-    return fetch("https://no-judgies.herokuapp.com/byJournalId/"+jId)
+    return fetch("http://localhost:3000/byJournalId/"+jId)
         .then((resp) => resp.json())
         .then( (cdata) =>
         {
@@ -685,7 +685,7 @@ function sumbitJournal()
         }
     
         //POST the journal
-        fetch("https://no-judgies.herokuapp.com/newJournal", 
+        fetch("http://localhost:3000/newJournal", 
         {
             method: "POST",
             headers: { 'Content-Type' : 'application/Json'},
@@ -738,7 +738,7 @@ function addCommentToJournal(jrnlid)
     {
 
          //POST the Comment
-        fetch("https://no-judgies.herokuapp.com/newComment", 
+        fetch("http://localhost:3000/newComment", 
         {
             method: "POST",
             headers: { 'Content-Type' : 'application/Json'},
@@ -803,7 +803,7 @@ function updateJournalReactions(event)
 
 function updateJournalReactionsPatch(jId,reaction)
 {
-    fetch("https://no-judgies.herokuapp.com/journal/update/"+jId,
+    fetch("http://localhost:3000/journal/update/"+jId,
     {
     method: "PATCH",
     headers: { 'Content-Type' : 'application/Json'},
@@ -856,7 +856,7 @@ function updateCommentReactions(event)
 
 function updateCommentReactionsPatch(cId,reaction)
 {
-    fetch("https://no-judgies.herokuapp.com/comment/update/"+cId,
+    fetch("http://localhost:3000/comment/update/"+cId,
     {
     method: "PATCH",
     headers: { 'Content-Type' : 'application/Json'},
