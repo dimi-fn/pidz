@@ -26,7 +26,7 @@ const comments = require('./data/commentData');
 server.use('/',siteRoutes);
 
 //start server
-server.listen(port, () => console.log(`Server listening on port: ${port}`));
+server.listen(port, () => console.log(`Server listening on port: http://localhost:${port}`));
 
 //populate our data
 Journal.loadJournals();
