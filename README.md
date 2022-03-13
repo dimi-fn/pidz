@@ -110,14 +110,6 @@ We believe that our website can help the mental health of visitors by reducing [
 
 --------
 
-# Screenshots - Images
-
---------
-
-# Win & Challenges
-
---------
-
 # Licence
 
 [MIT license](https://opensource.org/licenses/mit-license.php)
