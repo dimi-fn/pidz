@@ -105,7 +105,7 @@ We believe that our website can help the mental health of visitors by reducing [
 * Created test scripts for testing the client-side
 
 <p align="center">
-  <img src="" alt="">
+  <img src="https://github.com/dimi-fn/pidz/blob/main/client/layout.png" alt="">
 </p> 
 
 --------
